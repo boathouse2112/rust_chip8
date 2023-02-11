@@ -1,24 +1,29 @@
-
 pub struct CPU {
+    // Memory 4096 bytes
+    pub memory: [u8; 4096],
     // Registers 0 through F
-    v: [u8; 16],
+    pub v: [u8; 16],
     // Program counter
-    pc: u16,
+    pub pc: u16,
     // Index register
-    i: u16,
+    pub i: u16,
+    // Stack of 16-bit addresses
+    pub stack: Vec<u16>,
     // Delay timer, sound timer
-    dt: u8,
-    st: u8,
+    pub dt: u8,
+    pub st: u8,
 }
 
 impl CPU {
-    fn new() -> CPU {
+    pub fn new() -> CPU {
         return CPU {
+            memory: [0; 4096],
             v: [0; 16],
-            pc: 0x200,      // Programs start at 0x200
+            pc: 0x200, // Programs start at 0x200
             i: 0,
+            stack: Vec::new(),
             dt: 0,
             st: 0,
-        }
+        };
     }
 }
