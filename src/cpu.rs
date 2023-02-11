@@ -26,4 +26,25 @@ impl CPU {
             st: 0,
         };
     }
+
+    // Actually this runs a cycle
+    pub fn run_cycle(&mut self, instruction: u16) {
+        // Check 1st nibble
+        match instruction & 0xF000 {
+            // 1XXX -- JMP to XXX
+            x if x == 0x1000 => self.pc = instruction & 0x0FFF,
+            // 2XXX -- Subroutine: push PC to stack, JMP to XXX
+            x if x == 0x2000 => {
+                self.stack.push(self.pc);
+                self.pc = instruction & 0x0FFF;
+            }
+            // 6XNN -- Store NN in register vX
+            x if x == 0x6000 => {
+                let register = ((instruction & 0x0F00) >> 8) as usize;
+                let value = instruction as u8;
+                self.v[register] = value;
+            }
+            _ => println!("no"),
+        }
+    }
 }

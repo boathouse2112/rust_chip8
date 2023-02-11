@@ -1,6 +1,5 @@
 mod cpu;
 use cpu::CPU;
-use std::fmt::Write;
 use std::fs;
 
 fn main() {
@@ -15,5 +14,9 @@ fn main() {
 
     // Load ROM into CPU memory
     let mut cpu = CPU::new();
-    cpu.memory[200..200 + rom.len()].clone_from_slice(&rom[..]);
+    cpu.memory[0x200..0x200 + rom.len()].clone_from_slice(&rom[..]);
+
+    // Test run_instruction
+    cpu.run_cycle(0x6F12);
+    println!("{:X?}", cpu.v[0xF]);
 }
