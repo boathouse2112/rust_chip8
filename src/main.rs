@@ -17,6 +17,7 @@ fn main() {
     cpu.memory[0x200..0x200 + rom.len()].clone_from_slice(&rom[..]);
 
     // Test run_instruction
-    cpu.run_cycle(0x6F12);
-    println!("{:X?}", cpu.v[0xF]);
+    cpu.run_cycle(0x6E12);
+    cpu.run_cycle(0x3E12);
+    println!("{:X?}", cpu.pc);
 }
