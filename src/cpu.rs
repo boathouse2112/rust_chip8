@@ -3,6 +3,7 @@ use std::num::Wrapping;
 
 use byteorder::{BigEndian, ByteOrder};
 
+const FONT_START_LOCATION: usize = 0x50;
 const FONT: [u8; 80] = [
     0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
     0x20, 0x60, 0x20, 0x20, 0x70, // 1
@@ -44,7 +45,7 @@ impl CPU {
     pub fn new() -> CPU {
         // Read the sprite font into memory
         let mut memory = [0u8; 4096];
-        memory[0x50..0x0A0].clone_from_slice(&FONT[..]);
+        memory[FONT_START_LOCATION..FONT_START_LOCATION + 0x50].clone_from_slice(&FONT[..]);
 
         return CPU {
             memory: memory,
@@ -69,32 +70,36 @@ impl CPU {
         sprite_location: usize,
     ) -> bool {
         let sprite_data = self.memory[sprite_location..sprite_location + length].to_vec();
+        println!("{:02X?}", sprite_data);
 
         let mut cells_turned_off = false;
         for (y_offset, byte) in sprite_data.iter().enumerate() {
-            for x_offset in BitIter::from(*byte) {
-                // Cells off-screen aren't drawn
+            for x_offset in 0..8 {
                 if x_start + x_offset >= self.display[y_start + y_offset].len() {
                     break;
                 }
-
-                let x = x_start + x_offset;
-                let y = y_start + y_offset;
-                let current_cell = self.display[y][x];
-                if current_cell {
-                    cells_turned_off = true;
+                let bit = (byte >> (7 - x_offset)) % 2;
+                println!("offset: {:?}, bit: {:b}", x_offset, bit);
+                if bit != 0 {
+                    let x = x_start + x_offset;
+                    let y = y_start + y_offset;
+                    let current_cell = self.display[y][x];
+                    if current_cell {
+                        cells_turned_off = true;
+                    }
+                    self.display[y][x] = !current_cell;
                 }
-                self.display[y][x] = !current_cell
             }
         }
         return cells_turned_off;
     }
 
     // Actually this runs a cycle
-    pub fn run_cycle(&mut self, instruction: u16) {
+    pub fn run_cycle(&mut self, _instruction: u16) {
         // Read instruction
         let pc_idx = self.pc as usize;
-        let _instruction = BigEndian::read_u16(&self.memory[pc_idx..pc_idx + 2]);
+        let instruction = BigEndian::read_u16(&self.memory[pc_idx..pc_idx + 2]);
+        // println!("{:X}", instruction);
 
         // Increment pc
         self.pc += 2;
@@ -164,7 +169,11 @@ impl CPU {
                     )
                     .into();
             }
-            _ => println!("no"),
+            // FX29 -- Set I to the memory address of the sprite for the digit stored in vX
+            a if a == 0xF000 && instruction & 0x00FF == 0x0029 => {
+                self.i = (FONT_START_LOCATION + (5 * self.v[x_nibble as usize]) as usize) as u16
+            }
+            _ => {}
         }
     }
 }
