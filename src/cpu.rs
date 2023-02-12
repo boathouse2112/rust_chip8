@@ -1,3 +1,5 @@
+use std::{intrinsics::wrapping_add, num::Wrapping};
+
 use byteorder::{BigEndian, ByteOrder};
 
 pub struct CPU {
@@ -48,43 +50,50 @@ impl CPU {
         // Check 1st nibble
         match instruction & 0xF000 {
             // 00EE -- End subroutine
-            x if x == 0x00EE => self.pc = self.stack.pop().unwrap(),
+            a if a == 0x00EE => self.pc = self.stack.pop().unwrap(),
             // 1XXX -- JMP to XXX
-            x if x == 0x1000 => self.pc = instruction & 0x0FFF,
+            a if a == 0x1000 => self.pc = instruction & 0x0FFF,
             // 2XXX -- Subroutine: push PC to stack, JMP to XXX
-            x if x == 0x2000 => {
+            a if a == 0x2000 => {
                 self.stack.push(self.pc);
                 self.pc = instruction & 0x0FFF;
             }
             // 3XNN -- Skip the following instruction if vX == NN
-            x if x == 0x3000 => {
+            a if a == 0x3000 => {
                 if self.v[x_nibble as usize] == n_2_nibble as u8 {
                     self.pc += 2;
                 };
             }
             // 4XNN -- Skip the following instruction if vX != NN
-            x if x == 0x4000 => {
+            a if a == 0x4000 => {
                 if self.v[x_nibble as usize] != n_2_nibble as u8 {
                     self.pc += 2;
                 };
             }
             // 5XY0 -- Skip the following instruction if vX == vY
-            x if x == 0x4000 && instruction & 0x000F == 0 => {
+            a if a == 0x4000 && instruction & 0x000F == 0 => {
                 if self.v[x_nibble as usize] == self.v[y_nibble as usize] {
                     self.pc += 2;
                 };
             }
             // 6XNN -- Store NN in register vX
-            x if x == 0x6000 => {
+            a if a == 0x6000 => {
                 let value = instruction as u8;
                 self.v[x_nibble as usize] = value;
             }
+            // 7XNN -- Add the value NN to register vX -- Use wrapping overflow
+            a if a == 0x7000 => {
+                self.v[x_nibble as usize] =
+                    (Wrapping(self.v[x_nibble as usize]) + Wrapping(n_2_nibble as u8)).0
+            }
             // 9XY0 -- Skip the following instruction if vX != vY
-            x if x == 0x9000 && instruction & 0x000F == 0 => {
+            a if a == 0x9000 && instruction & 0x000F == 0 => {
                 if self.v[x_nibble as usize] != self.v[y_nibble as usize] {
                     self.pc += 2;
                 };
             }
+            // ANNN -- Store memory address NNN in register I
+            a if a == 0xA000 => self.i = n_3_nibble,
             _ => println!("no"),
         }
     }
