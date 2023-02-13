@@ -28,11 +28,11 @@ use tui::{
 
 fn main() -> Result<(), io::Error> {
     // Set up terminal
-    enable_raw_mode()?;
-    let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
+    // enable_raw_mode()?;
+    // let mut stdout = io::stdout();
+    // execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
+    // let backend = CrosstermBackend::new(stdout);
+    // let mut terminal = Terminal::new(backend)?;
 
     // Load ROM into CPU memory
     let rom = fs::read("roms/test_suite.ch8").expect("Can read ROM file");
@@ -45,30 +45,30 @@ fn main() -> Result<(), io::Error> {
         chip_8.run_cycle(0);
     }
     // println!("{:?}", cpu.display);
-    // print_grid(cpu.display);
+    print_grid(chip_8.display);
 
-    loop {
-        terminal.draw(|f| ui(f, &chip_8))?;
-        if event::poll(Duration::new(1, 0))? {
-            if let Event::Key(key) = event::read()? {
-                match key.code {
-                    KeyCode::Char('q') => {
-                        break;
-                    }
-                    _ => {}
-                }
-            }
-        }
-    }
+    // loop {
+    //     terminal.draw(|f| ui(f, &chip_8))?;
+    //     if event::poll(Duration::new(1, 0))? {
+    //         if let Event::Key(key) = event::read()? {
+    //             match key.code {
+    //                 KeyCode::Char('q') => {
+    //                     break;
+    //                 }
+    //                 _ => {}
+    //             }
+    //         }
+    //     }
+    // }
 
     // restore terminal
-    disable_raw_mode()?;
-    execute!(
-        terminal.backend_mut(),
-        LeaveAlternateScreen,
-        DisableMouseCapture
-    )?;
-    terminal.show_cursor()?;
+    // disable_raw_mode()?;
+    // execute!(
+    //     terminal.backend_mut(),
+    //     LeaveAlternateScreen,
+    //     DisableMouseCapture
+    // )?;
+    // terminal.show_cursor()?;
 
     Ok(())
 }
@@ -116,18 +116,4 @@ fn ui<B: Backend>(f: &mut Frame<B>, chip_8: &Chip8) {
     //     .y_bounds([0.0, chip_8::DISPLAY_HEIGHT as f64]);
 
     f.render_widget(display, f.size());
-}
-
-fn draw_rects(ctx: &mut Context, chip_8: &Chip8) {
-    let rects = chip_8.display.iter().map(|(x, y)| Rectangle {
-        x: *x as f64,
-        y: (chip_8::DISPLAY_HEIGHT - y - 1) as f64,
-        width: 1.0,
-        height: 1.0,
-        color: Color::White,
-    });
-
-    for rect in rects {
-        ctx.draw(&rect);
-    }
 }

@@ -1,10 +1,6 @@
-use std::{
-    collections::{HashMap, HashSet},
-    num::Wrapping,
-};
+use std::{collections::HashSet, num::Wrapping};
 
 use byteorder::{BigEndian, ByteOrder};
-use tui::{style::Color, widgets::canvas::Points};
 
 pub const DISPLAY_WIDTH: i32 = 64;
 pub const DISPLAY_HEIGHT: i32 = 32;
@@ -143,6 +139,17 @@ impl Chip8 {
             // FX29 -- Set I to the memory address of the sprite for the digit stored in vX
             a if a == 0xF000 && instruction & 0x00FF == 0x0029 => {
                 self.i = (FONT_START_LOCATION + (5 * self.v[x_nibble as usize]) as usize) as u16
+            }
+            // FX65 -- Fill registers V0 to VX inclusive with the values stored in memory starting at address I
+            //         I is set to I + X + 1 after operation
+            a if a == 0xF000 && instruction & 0x00FF == 0x0065 => {
+                let mut addr = self.i;
+                for register in 0..x_nibble + 1 {
+                    let value = self.memory[addr as usize];
+                    self.v[register as usize] = value;
+                    addr += 1;
+                }
+                self.i = self.i + x_nibble + 1;
             }
             _ => {}
         }
