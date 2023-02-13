@@ -62,11 +62,10 @@ impl Chip8 {
     }
 
     // Actually this runs a cycle
-    pub fn run_cycle(&mut self, _instruction: u16) {
+    pub fn run_cycle(&mut self) {
         // Read instruction
         let pc_idx = self.pc as usize;
         let instruction = BigEndian::read_u16(&self.memory[pc_idx..pc_idx + 2]);
-        // println!("{:X}", instruction);
 
         // Increment pc
         self.pc += 2;
@@ -166,7 +165,6 @@ impl Chip8 {
         sprite_location: usize,
     ) -> bool {
         let sprite_data = self.memory[sprite_location..sprite_location + length as usize].to_vec();
-        // println!("{:02X?}", sprite_data);
 
         let mut cells_turned_off = false;
         for (y_offset, byte) in sprite_data.iter().enumerate() {
@@ -175,7 +173,6 @@ impl Chip8 {
                     break;
                 }
                 let bit = (byte >> (7 - x_offset)) % 2;
-                // println!("offset: {:?}, bit: {:b}", x_offset, bit);
                 if bit != 0 {
                     let x = x_start + x_offset;
                     let y = y_start + y_offset as i32;
@@ -190,5 +187,122 @@ impl Chip8 {
             }
         }
         return cells_turned_off;
+    }
+}
+
+#[cfg(test)]
+mod test {
+    use super::Chip8;
+
+    #[test]
+    fn store_in_registers() {
+        let mut chip_8 = Chip8::new();
+
+        // 0xANNN stores address NNN in register I
+        chip_8.memory[0x200] = 0xA0;
+        chip_8.memory[0x201] = 0xEF;
+
+        chip_8.run_cycle();
+
+        assert_eq!(chip_8.i, 0x0EF);
+
+        // 0x6XNN stores NN in register vX
+        chip_8.memory[0x202] = 0x60;
+        chip_8.memory[0x203] = 0xEF;
+        chip_8.memory[0x204] = 0x6F;
+        chip_8.memory[0x205] = 0x01;
+
+        chip_8.run_cycle();
+        chip_8.run_cycle();
+
+        assert_eq!(chip_8.v[0], 0xEF);
+        assert_eq!(chip_8.v[0xF], 0x01);
+    }
+
+    #[test]
+    fn fill_registers() {
+        let mut chip_8 = Chip8::new();
+
+        // 0xFX65 fills registers v0 through vX with the values in memory starting at the address stored in I
+        // Afterwards, I is set to I + X + 1
+
+        // Instruction
+        chip_8.memory[0x200] = 0xFF;
+        chip_8.memory[0x201] = 0x65;
+
+        // Values for registers
+        chip_8.i = 0x500;
+        chip_8.memory[0x500] = 0xFE;
+        chip_8.memory[0x501] = 0xEF;
+        chip_8.memory[0x502] = 0xDC;
+        chip_8.memory[0x503] = 0xCD;
+        chip_8.memory[0x504] = 0xBA;
+        chip_8.memory[0x505] = 0xAB;
+        chip_8.memory[0x506] = 0x98;
+        chip_8.memory[0x507] = 0x89;
+        chip_8.memory[0x508] = 0x76;
+        chip_8.memory[0x509] = 0x67;
+        chip_8.memory[0x50A] = 0x54;
+        chip_8.memory[0x50B] = 0x45;
+        chip_8.memory[0x50C] = 0x32;
+        chip_8.memory[0x50D] = 0x23;
+        chip_8.memory[0x50E] = 0x10;
+        chip_8.memory[0x50F] = 0x01;
+
+        chip_8.run_cycle();
+
+        // Check all registers are correct.
+        assert_eq!(chip_8.v[0], 0xFE);
+        assert_eq!(chip_8.v[1], 0xEF);
+        assert_eq!(chip_8.v[2], 0xDC);
+        assert_eq!(chip_8.v[3], 0xCD);
+        assert_eq!(chip_8.v[4], 0xBA);
+        assert_eq!(chip_8.v[5], 0xAB);
+        assert_eq!(chip_8.v[6], 0x98);
+        assert_eq!(chip_8.v[7], 0x89);
+        assert_eq!(chip_8.v[8], 0x76);
+        assert_eq!(chip_8.v[9], 0x67);
+        assert_eq!(chip_8.v[0xA], 0x54);
+        assert_eq!(chip_8.v[0xB], 0x45);
+        assert_eq!(chip_8.v[0xC], 0x32);
+        assert_eq!(chip_8.v[0xD], 0x23);
+        assert_eq!(chip_8.v[0xE], 0x10);
+        assert_eq!(chip_8.v[0xF], 0x01);
+
+        // Check that I has been updated correctly
+        assert_eq!(chip_8.i, 0x510);
+    }
+
+    #[test]
+    fn skip_instructions() {
+        let mut chip_8 = Chip8::new();
+
+        // 0x3XNN skips an instruction if vX == NN
+        chip_8.i = 0x100;
+        chip_8.v[0] = 0x16;
+
+        chip_8.memory[0x200] = 0x30; // Skip if v0 == 16
+        chip_8.memory[0x201] = 0x16;
+        chip_8.memory[0x202] = 0xAF; // Skipped, would set I to 0xFFF
+        chip_8.memory[0x203] = 0xFF;
+        chip_8.memory[0x204] = 0x30; // Skip if v0 == FF
+        chip_8.memory[0x205] = 0xFF;
+        chip_8.memory[0x206] = 0xA2; // Not skipped, sets I to 0x222
+        chip_8.memory[0x207] = 0x22;
+
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x204);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x206);
+        assert_eq!(chip_8.i, 0x100);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x208);
+        assert_eq!(chip_8.i, 0x222);
+
+        // 0x4XNN skips an instruction if vX != NN
+        todo!("Test 0x4XNN");
+
+        // 0x5XY0 skips an instruction if vX == vY
+        todo!("Test 0x5XY0");
     }
 }

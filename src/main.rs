@@ -42,7 +42,7 @@ fn main() -> Result<(), io::Error> {
 
     // Test run_instruction
     for _ in 0..1_000 {
-        chip_8.run_cycle(0);
+        chip_8.run_cycle();
     }
     // println!("{:?}", cpu.display);
     print_grid(chip_8.display);
