@@ -101,7 +101,12 @@ impl Chip8 {
                 };
             }
             // 5XY0 -- Skip the following instruction if vX == vY
-            a if a == 0x4000 && instruction & 0x000F == 0 => {
+            a if a == 0x5000 && instruction & 0x000F == 0 => {
+                // println!("PC={:X?}", self.pc);
+                // println!(
+                //     "X={:X?}, Y={:X?}, vX={:X?}, vY={:X?}",
+                //     x_nibble, y_nibble, self.v[x_nibble as usize], self.v[y_nibble as usize]
+                // );
                 if self.v[x_nibble as usize] == self.v[y_nibble as usize] {
                     self.pc += 2;
                 };
@@ -281,11 +286,11 @@ mod test {
         chip_8.i = 0x100;
         chip_8.v[0] = 0x16;
 
-        chip_8.memory[0x200] = 0x30; // Skip if v0 == 16
+        chip_8.memory[0x200] = 0x30; // Skip if v0 == 0x16
         chip_8.memory[0x201] = 0x16;
         chip_8.memory[0x202] = 0xAF; // Skipped, would set I to 0xFFF
         chip_8.memory[0x203] = 0xFF;
-        chip_8.memory[0x204] = 0x30; // Skip if v0 == FF
+        chip_8.memory[0x204] = 0x30; // Skip if v0 == 0xFF
         chip_8.memory[0x205] = 0xFF;
         chip_8.memory[0x206] = 0xA2; // Not skipped, sets I to 0x222
         chip_8.memory[0x207] = 0x22;
@@ -300,9 +305,76 @@ mod test {
         assert_eq!(chip_8.i, 0x222);
 
         // 0x4XNN skips an instruction if vX != NN
-        todo!("Test 0x4XNN");
+        chip_8.pc = 0x300;
+        chip_8.i = 0x100;
+        chip_8.v[0xF] = 0x16;
+
+        chip_8.memory[0x300] = 0x4F; // Skip if vF != 0xFF
+        chip_8.memory[0x301] = 0xFF;
+        chip_8.memory[0x302] = 0xAF; // Skipped, would set I to 0xFFF
+        chip_8.memory[0x303] = 0xFF;
+        chip_8.memory[0x304] = 0x4F; // Skip if vF != 0x16
+        chip_8.memory[0x305] = 0x16;
+        chip_8.memory[0x306] = 0xA3; // Not skipped, sets I to 0x333
+        chip_8.memory[0x307] = 0x33;
+
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x304);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x306);
+        assert_eq!(chip_8.i, 0x100);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x308);
+        assert_eq!(chip_8.i, 0x333);
 
         // 0x5XY0 skips an instruction if vX == vY
-        todo!("Test 0x5XY0");
+        chip_8.pc = 0x400;
+        chip_8.i = 0x100;
+        chip_8.v[0xA] = 0x16;
+        chip_8.v[0xB] = 0x16;
+        chip_8.v[0xC] = 0x20;
+
+        chip_8.memory[0x400] = 0x5A; // Skip if vA == vB
+        chip_8.memory[0x401] = 0xB0;
+        chip_8.memory[0x402] = 0xAF; // Skipped, would set I to 0xFFF
+        chip_8.memory[0x403] = 0xFF;
+        chip_8.memory[0x404] = 0x5A; // Skip if vA == vC
+        chip_8.memory[0x405] = 0xC0;
+        chip_8.memory[0x406] = 0xA3; // Not skipped, sets I to 0x333
+        chip_8.memory[0x407] = 0x33;
+
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x404);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x406);
+        assert_eq!(chip_8.i, 0x100);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x408);
+        assert_eq!(chip_8.i, 0x333);
+
+        // 0x9XY0 skips an instruction if vX != vY
+        chip_8.pc = 0x500;
+        chip_8.i = 0x100;
+        chip_8.v[0xD] = 0x16;
+        chip_8.v[0xE] = 0x20;
+        chip_8.v[0xF] = 0x16;
+
+        chip_8.memory[0x500] = 0x9D; // Skip if vD != vE
+        chip_8.memory[0x501] = 0xE0;
+        chip_8.memory[0x502] = 0xAF; // Skipped, would set I to 0xFFF
+        chip_8.memory[0x503] = 0xFF;
+        chip_8.memory[0x504] = 0x9D; // Skip if vD != vF
+        chip_8.memory[0x505] = 0xF0;
+        chip_8.memory[0x506] = 0xA3; // Not skipped, sets I to 0x333
+        chip_8.memory[0x507] = 0x33;
+
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x504);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x506);
+        assert_eq!(chip_8.i, 0x100);
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0x508);
+        assert_eq!(chip_8.i, 0x333);
     }
 }
