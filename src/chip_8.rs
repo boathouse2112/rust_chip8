@@ -79,8 +79,10 @@ impl Chip8 {
 
         // Check 1st nibble
         match instruction & 0xF000 {
+            // 00E0 -- Clear screen
+            _ if instruction == 0x00E0 => self.display.clear(),
             // 00EE -- End subroutine
-            a if a == 0x00EE => self.pc = self.stack.pop().unwrap(),
+            _ if instruction == 0x00EE => self.pc = self.stack.pop().unwrap(),
             // 1XXX -- JMP to XXX
             a if a == 0x1000 => self.pc = instruction & 0x0FFF,
             // 2XXX -- Subroutine: push PC to stack, JMP to XXX
@@ -198,6 +200,18 @@ impl Chip8 {
 #[cfg(test)]
 mod test {
     use super::Chip8;
+
+    #[test]
+    fn jump() {
+        // 0x1NNN moves the program counter to NNN
+        let mut chip_8 = Chip8::new();
+
+        chip_8.memory[0x200] = 0x1E;
+        chip_8.memory[0x201] = 0xEE;
+
+        chip_8.run_cycle();
+        assert_eq!(chip_8.pc, 0xEEE);
+    }
 
     #[test]
     fn store_in_registers() {
@@ -376,5 +390,26 @@ mod test {
         chip_8.run_cycle();
         assert_eq!(chip_8.pc, 0x508);
         assert_eq!(chip_8.i, 0x333);
+    }
+
+    #[test]
+    fn clear_screen() {
+        // 0x00E0 clears the screen
+        let mut chip_8 = Chip8::new();
+
+        chip_8.display.insert((0, 0));
+        chip_8.display.insert((10, 10));
+        chip_8.display.insert((64, 32));
+
+        println!("display={:?}", chip_8.display);
+
+        chip_8.memory[0x200] = 0x00;
+        chip_8.memory[0x201] = 0xE0;
+
+        chip_8.run_cycle();
+
+        println!("display={:?}", chip_8.display);
+
+        assert!(chip_8.display.is_empty());
     }
 }
