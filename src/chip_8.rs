@@ -1,6 +1,7 @@
 use std::{collections::HashSet, num::Wrapping};
 
 use byteorder::{BigEndian, ByteOrder};
+use rand::random;
 
 pub const DISPLAY_WIDTH: i32 = 64;
 pub const DISPLAY_HEIGHT: i32 = 32;
@@ -118,21 +119,81 @@ impl Chip8 {
                 self.v[x_nibble as usize] =
                     (Wrapping(self.v[x_nibble as usize]) + Wrapping(nn_nibble as u8)).0
             }
-            // 8XY0 -- Store the value of register VY in register VX
+            // 8XY0 -- Store the value of register vY in register vX
             _ if instruction & 0xF00F == 0x8000 => {
                 self.v[x_nibble as usize] = self.v[y_nibble as usize]
             }
-            // 8XY1 -- Set VX to VX OR VY
+            // 8XY1 -- Set vX to vX OR vY
             _ if instruction & 0xF00F == 0x8001 => {
                 self.v[x_nibble as usize] = self.v[x_nibble as usize] | self.v[y_nibble as usize];
             }
-            // 8XY2 -- Set VX to VX AND VY
+            // 8XY2 -- Set vX to vX AND vY
             _ if instruction & 0xF00F == 0x8002 => {
                 self.v[x_nibble as usize] = self.v[x_nibble as usize] & self.v[y_nibble as usize];
             }
-            // 8XY3 -- Set VX to VX XOR VY
+            // 8XY3 -- Set vX to vX XOR vY
             _ if instruction & 0xF00F == 0x8003 => {
                 self.v[x_nibble as usize] = self.v[x_nibble as usize] ^ self.v[y_nibble as usize];
+            }
+            // 8XY4 -- Add the value of register vY to register vX
+            //         Set vF to 01 if a carry occurs
+            //         Set vF to 00 if a carry does not occur
+            _ if instruction & 0xF00F == 0x8004 => {
+                let x = x_nibble as usize;
+                let y = y_nibble as usize;
+                let x_val = self.v[x];
+                let y_val = self.v[y];
+                let (sum, carry) = u8::overflowing_add(x_val, y_val);
+                self.v[x] = sum;
+                self.v[0xF] = carry as u8;
+            }
+            // 8XY5 -- Set vX to the difference vX - vY
+            //         Set vF to 00 if a borrow occurs
+            //         Set vF to 01 if a borrow does not occur
+            _ if instruction & 0xF00F == 0x8005 => {
+                let x = x_nibble as usize;
+                let y = y_nibble as usize;
+                let x_val = self.v[x];
+                let y_val = self.v[y];
+                let (difference, carry) = u8::overflowing_sub(x_val, y_val);
+                self.v[x] = difference;
+                self.v[0xF] = !carry as u8;
+            }
+            // 8XY6 -- Store the value of register vY shifted right one bit in register vX
+            //         Set register vF to the least significant bit prior to the shift
+            //         vY is unchanged
+            _ if instruction & 0xF00F == 0x8006 => {
+                let x = x_nibble as usize;
+                let y = y_nibble as usize;
+                let y_val = self.v[y];
+                let lsb = y_val & 1;
+                let y_shifted = y_val >> 1;
+                self.v[x] = y_shifted;
+                self.v[0xF] = lsb;
+            }
+            // 8XY7 -- Set vX to the difference vY - vX
+            //         Set vF to 00 if a borrow occurs
+            //         Set vF to 01 if a borrow does not occur
+            _ if instruction & 0xF00F == 0x8007 => {
+                let x = x_nibble as usize;
+                let y = y_nibble as usize;
+                let x_val = self.v[x];
+                let y_val = self.v[y];
+                let (difference, carry) = u8::overflowing_sub(y_val, x_val);
+                self.v[x] = difference;
+                self.v[0xF] = !carry as u8;
+            }
+            // 8XYE -- Store the value of register vY shifted left one bit in register vX
+            //         Set register vF to the most significant bit prior to the shift
+            //         vY is unchanged
+            _ if instruction & 0xF00F == 0x800E => {
+                let x = x_nibble as usize;
+                let y = y_nibble as usize;
+                let y_val = self.v[y];
+                let msb = (y_val >> 7) & 1;
+                let y_shifted = y_val << 1;
+                self.v[x] = y_shifted;
+                self.v[0xF] = msb;
             }
             // 9XY0 -- Skip the following instruction if vX != vY
             _ if instruction & 0xF00F == 0x9000 => {
@@ -142,6 +203,13 @@ impl Chip8 {
             }
             // ANNN -- Store memory address NNN in register I
             a if a == 0xA000 => self.i = nnn_nibble,
+            // BNNN -- Jump to NNN + v0
+            a if a == 0xB000 => self.pc = nnn_nibble + self.v[0] as u16,
+            // CXNN -- Generate a random number, AND-mask it with NN, and set vX to it
+            a if a == 0xC000 => {
+                let n: u8 = random();
+                self.v[x_nibble as usize] = n & nn_nibble as u8;
+            }
             // DXYN -- Draw a sprite at vX, vY with N bytes of sprite data starting at the address stored in I
             a if a == 0xD000 => {
                 self.v[0xf] = self
@@ -153,13 +221,58 @@ impl Chip8 {
                     )
                     .into();
             }
+            // FX07 -- Set vX to the value of dt
+            _ if instruction & 0xF0FF == 0xF007 => {
+                self.v[x_nibble as usize] = self.dt;
+            }
+            // FX15 -- Set dt to the value of vX
+            _ if instruction & 0xF0FF == 0xF015 => {
+                self.dt = self.v[x_nibble as usize];
+            }
+            // FX18 -- Set st to the value of vX
+            _ if instruction & 0xF0FF == 0xF018 => {
+                self.st = self.v[x_nibble as usize];
+            }
+            // FX1E -- Add the value stored in vX to I
+            _ if instruction & 0xF0FF == 0xF01E => {
+                let x = x_nibble as usize;
+                let i = self.i;
+                let x_val = self.v[x] as u16;
+                let (sum, carry) = u16::overflowing_add(i, x_val);
+                self.i = sum;
+                self.v[0xF] = carry as u8;
+            }
             // FX29 -- Set I to the memory address of the sprite for the digit stored in vX
-            a if a == 0xF000 && instruction & 0x00FF == 0x0029 => {
+            _ if instruction & 0xF0FF == 0xF029 => {
                 self.i = (FONT_START_LOCATION + (5 * self.v[x_nibble as usize]) as usize) as u16
             }
-            // FX65 -- Fill registers V0 to VX inclusive with the values stored in memory starting at address I
+            // FX33 -- Store the binary-coded decimal equivalent of the value stored in register vX
+            //         at addresses I, I + 1, and I + 2
+            _ if instruction & 0xF0FF == 0xF033 => {
+                let x = x_nibble as usize;
+                let i = self.i as usize;
+                let val = self.v[x];
+                let first_digit = val / 100;
+                let second_digit = (val % 100) / 10;
+                let third_digit = val % 10;
+                self.memory[i] = first_digit;
+                self.memory[i + 1] = second_digit;
+                self.memory[i + 2] = third_digit;
+            }
+            // FX55 -- Store the values v0 through vX in memory starting at address I
             //         I is set to I + X + 1 after operation
-            a if a == 0xF000 && instruction & 0x00FF == 0x0065 => {
+            _ if instruction & 0xF0FF == 0xF055 => {
+                let mut addr = self.i;
+                for register in 0..x_nibble + 1 {
+                    let value = self.v[register as usize];
+                    self.memory[addr as usize] = value;
+                    addr += 1;
+                }
+                self.i = self.i + x_nibble + 1;
+            }
+            // FX65 -- Fill registers v0 to vX inclusive with the values stored in memory starting at address I
+            //         I is set to I + X + 1 after operation
+            _ if instruction & 0xF0FF == 0xF065 => {
                 let mut addr = self.i;
                 for register in 0..x_nibble + 1 {
                     let value = self.memory[addr as usize];

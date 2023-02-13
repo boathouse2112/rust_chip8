@@ -28,47 +28,48 @@ use tui::{
 
 fn main() -> Result<(), io::Error> {
     // Set up terminal
-    // enable_raw_mode()?;
-    // let mut stdout = io::stdout();
-    // execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
-    // let backend = CrosstermBackend::new(stdout);
-    // let mut terminal = Terminal::new(backend)?;
+    enable_raw_mode()?;
+    let mut stdout = io::stdout();
+    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
+    let backend = CrosstermBackend::new(stdout);
+    let mut terminal = Terminal::new(backend)?;
 
     // Load ROM into CPU memory
-    let rom = fs::read("roms/test_suite.ch8").expect("Can read ROM file");
+    let rom = fs::read("roms/ibm_logo.ch8").expect("Can read ROM file");
     let mut chip_8 = Chip8::new();
     chip_8.memory[0x200..0x200 + rom.len()].clone_from_slice(&rom[..]);
-    chip_8.memory[0x1FF] = 2;
+    // chip_8.memory[0x1FF] = 4;
+    // chip_8.memory[0x1FE] = 2;
 
     // Test run_instruction
     for _ in 0..1_000 {
         chip_8.run_cycle();
     }
     // println!("{:?}", cpu.display);
-    print_grid(chip_8.display);
+    // print_grid(chip_8.display);
 
-    // loop {
-    //     terminal.draw(|f| ui(f, &chip_8))?;
-    //     if event::poll(Duration::new(1, 0))? {
-    //         if let Event::Key(key) = event::read()? {
-    //             match key.code {
-    //                 KeyCode::Char('q') => {
-    //                     break;
-    //                 }
-    //                 _ => {}
-    //             }
-    //         }
-    //     }
-    // }
+    loop {
+        terminal.draw(|f| ui(f, &chip_8))?;
+        if event::poll(Duration::new(1, 0))? {
+            if let Event::Key(key) = event::read()? {
+                match key.code {
+                    KeyCode::Char('q') => {
+                        break;
+                    }
+                    _ => {}
+                }
+            }
+        }
+    }
 
     // restore terminal
-    // disable_raw_mode()?;
-    // execute!(
-    //     terminal.backend_mut(),
-    //     LeaveAlternateScreen,
-    //     DisableMouseCapture
-    // )?;
-    // terminal.show_cursor()?;
+    disable_raw_mode()?;
+    execute!(
+        terminal.backend_mut(),
+        LeaveAlternateScreen,
+        DisableMouseCapture
+    )?;
+    terminal.show_cursor()?;
 
     Ok(())
 }
