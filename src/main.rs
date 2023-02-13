@@ -38,7 +38,7 @@ fn main() -> Result<(), io::Error> {
     let rom = fs::read("roms/test_suite.ch8").expect("Can read ROM file");
     let mut chip_8 = Chip8::new();
     chip_8.memory[0x200..0x200 + rom.len()].clone_from_slice(&rom[..]);
-    chip_8.memory[0x1FF] = 0;
+    chip_8.memory[0x1FF] = 2;
 
     // Test run_instruction
     for _ in 0..1_000 {

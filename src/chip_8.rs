@@ -73,9 +73,9 @@ impl Chip8 {
         // Get instruction nibble values
         let x_nibble = (instruction & 0x0F00) >> 8;
         let y_nibble = (instruction & 0x00F0) >> 4;
-        let n_3_nibble = instruction & 0x0FFF;
-        let n_2_nibble = instruction & 0x00FF;
-        let n_1_nibble = instruction & 0x000F;
+        let n_nibble = instruction & 0x000F;
+        let nn_nibble = instruction & 0x00FF; // Technically not a nibble.
+        let nnn_nibble = instruction & 0x0FFF;
 
         // Check 1st nibble
         match instruction & 0xF000 {
@@ -92,23 +92,18 @@ impl Chip8 {
             }
             // 3XNN -- Skip the following instruction if vX == NN
             a if a == 0x3000 => {
-                if self.v[x_nibble as usize] == n_2_nibble as u8 {
+                if self.v[x_nibble as usize] == nn_nibble as u8 {
                     self.pc += 2;
                 };
             }
             // 4XNN -- Skip the following instruction if vX != NN
             a if a == 0x4000 => {
-                if self.v[x_nibble as usize] != n_2_nibble as u8 {
+                if self.v[x_nibble as usize] != nn_nibble as u8 {
                     self.pc += 2;
                 };
             }
             // 5XY0 -- Skip the following instruction if vX == vY
             a if a == 0x5000 && instruction & 0x000F == 0 => {
-                // println!("PC={:X?}", self.pc);
-                // println!(
-                //     "X={:X?}, Y={:X?}, vX={:X?}, vY={:X?}",
-                //     x_nibble, y_nibble, self.v[x_nibble as usize], self.v[y_nibble as usize]
-                // );
                 if self.v[x_nibble as usize] == self.v[y_nibble as usize] {
                     self.pc += 2;
                 };
@@ -121,23 +116,39 @@ impl Chip8 {
             // 7XNN -- Add the value NN to register vX -- Use wrapping overflow
             a if a == 0x7000 => {
                 self.v[x_nibble as usize] =
-                    (Wrapping(self.v[x_nibble as usize]) + Wrapping(n_2_nibble as u8)).0
+                    (Wrapping(self.v[x_nibble as usize]) + Wrapping(nn_nibble as u8)).0
+            }
+            // 8XY0 -- Store the value of register VY in register VX
+            _ if instruction & 0xF00F == 0x8000 => {
+                self.v[x_nibble as usize] = self.v[y_nibble as usize]
+            }
+            // 8XY1 -- Set VX to VX OR VY
+            _ if instruction & 0xF00F == 0x8001 => {
+                self.v[x_nibble as usize] = self.v[x_nibble as usize] | self.v[y_nibble as usize];
+            }
+            // 8XY2 -- Set VX to VX AND VY
+            _ if instruction & 0xF00F == 0x8002 => {
+                self.v[x_nibble as usize] = self.v[x_nibble as usize] & self.v[y_nibble as usize];
+            }
+            // 8XY3 -- Set VX to VX XOR VY
+            _ if instruction & 0xF00F == 0x8003 => {
+                self.v[x_nibble as usize] = self.v[x_nibble as usize] ^ self.v[y_nibble as usize];
             }
             // 9XY0 -- Skip the following instruction if vX != vY
-            a if a == 0x9000 && instruction & 0x000F == 0 => {
+            _ if instruction & 0xF00F == 0x9000 => {
                 if self.v[x_nibble as usize] != self.v[y_nibble as usize] {
                     self.pc += 2;
                 };
             }
             // ANNN -- Store memory address NNN in register I
-            a if a == 0xA000 => self.i = n_3_nibble,
+            a if a == 0xA000 => self.i = nnn_nibble,
             // DXYN -- Draw a sprite at vX, vY with N bytes of sprite data starting at the address stored in I
             a if a == 0xD000 => {
                 self.v[0xf] = self
                     .draw_sprite(
                         (self.v[x_nibble as usize] % 64) as i32,
                         (self.v[y_nibble as usize] % 32) as i32,
-                        n_1_nibble as usize,
+                        n_nibble as usize,
                         self.i as usize,
                     )
                     .into();
@@ -401,14 +412,10 @@ mod test {
         chip_8.display.insert((10, 10));
         chip_8.display.insert((64, 32));
 
-        println!("display={:?}", chip_8.display);
-
         chip_8.memory[0x200] = 0x00;
         chip_8.memory[0x201] = 0xE0;
 
         chip_8.run_cycle();
-
-        println!("display={:?}", chip_8.display);
 
         assert!(chip_8.display.is_empty());
     }
