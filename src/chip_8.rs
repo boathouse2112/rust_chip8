@@ -1,7 +1,13 @@
-use bit_iter::BitIter;
-use std::num::Wrapping;
+use std::{
+    collections::{HashMap, HashSet},
+    num::Wrapping,
+};
 
 use byteorder::{BigEndian, ByteOrder};
+use tui::{style::Color, widgets::canvas::Points};
+
+pub const DISPLAY_WIDTH: i32 = 64;
+pub const DISPLAY_HEIGHT: i32 = 32;
 
 const FONT_START_LOCATION: usize = 0x50;
 const FONT: [u8; 80] = [
@@ -23,11 +29,11 @@ const FONT: [u8; 80] = [
     0xF0, 0x80, 0xF0, 0x80, 0x80, // F
 ];
 
-pub struct CPU {
+pub struct Chip8 {
     // Memory 4096 bytes
     pub memory: [u8; 4096],
     // Dixplay 64 x 32 black & white pixels
-    pub display: [[bool; 64]; 32],
+    pub display: HashSet<(i32, i32)>,
     // Registers 0 through F
     pub v: [u8; 16],
     // Program counter
@@ -41,15 +47,15 @@ pub struct CPU {
     pub st: u8,
 }
 
-impl CPU {
-    pub fn new() -> CPU {
+impl Chip8 {
+    pub fn new() -> Chip8 {
         // Read the sprite font into memory
         let mut memory = [0u8; 4096];
-        memory[FONT_START_LOCATION..FONT_START_LOCATION + 0x50].clone_from_slice(&FONT[..]);
+        memory[FONT_START_LOCATION..FONT_START_LOCATION + FONT.len()].clone_from_slice(&FONT[..]);
 
-        return CPU {
+        return Chip8 {
             memory: memory,
-            display: [[false; 64]; 32],
+            display: HashSet::default(),
             v: [0; 16],
             pc: 0x200, // Programs start at 0x200
             i: 0,
@@ -57,41 +63,6 @@ impl CPU {
             dt: 0,
             st: 0,
         };
-    }
-
-    // Draw a sprite at x and y on the display, using sprite data of the given length,
-    // drawn from the given memory location
-    // Returns whether any cells were turned off
-    fn draw_sprite(
-        &mut self,
-        x_start: usize,
-        y_start: usize,
-        length: usize,
-        sprite_location: usize,
-    ) -> bool {
-        let sprite_data = self.memory[sprite_location..sprite_location + length].to_vec();
-        println!("{:02X?}", sprite_data);
-
-        let mut cells_turned_off = false;
-        for (y_offset, byte) in sprite_data.iter().enumerate() {
-            for x_offset in 0..8 {
-                if x_start + x_offset >= self.display[y_start + y_offset].len() {
-                    break;
-                }
-                let bit = (byte >> (7 - x_offset)) % 2;
-                println!("offset: {:?}, bit: {:b}", x_offset, bit);
-                if bit != 0 {
-                    let x = x_start + x_offset;
-                    let y = y_start + y_offset;
-                    let current_cell = self.display[y][x];
-                    if current_cell {
-                        cells_turned_off = true;
-                    }
-                    self.display[y][x] = !current_cell;
-                }
-            }
-        }
-        return cells_turned_off;
     }
 
     // Actually this runs a cycle
@@ -162,8 +133,8 @@ impl CPU {
             a if a == 0xD000 => {
                 self.v[0xf] = self
                     .draw_sprite(
-                        (self.v[x_nibble as usize] % 64) as usize,
-                        (self.v[y_nibble as usize] % 32) as usize,
+                        (self.v[x_nibble as usize] % 64) as i32,
+                        (self.v[y_nibble as usize] % 32) as i32,
                         n_1_nibble as usize,
                         self.i as usize,
                     )
@@ -175,5 +146,42 @@ impl CPU {
             }
             _ => {}
         }
+    }
+
+    // Draw a sprite at x and y on the display, using sprite data of the given length,
+    // drawn from the given memory location
+    // Returns whether any cells were turned off
+    fn draw_sprite(
+        &mut self,
+        x_start: i32,
+        y_start: i32,
+        length: usize,
+        sprite_location: usize,
+    ) -> bool {
+        let sprite_data = self.memory[sprite_location..sprite_location + length as usize].to_vec();
+        // println!("{:02X?}", sprite_data);
+
+        let mut cells_turned_off = false;
+        for (y_offset, byte) in sprite_data.iter().enumerate() {
+            for x_offset in 0..8 {
+                if x_start + x_offset >= DISPLAY_WIDTH {
+                    break;
+                }
+                let bit = (byte >> (7 - x_offset)) % 2;
+                // println!("offset: {:?}, bit: {:b}", x_offset, bit);
+                if bit != 0 {
+                    let x = x_start + x_offset;
+                    let y = y_start + y_offset as i32;
+                    let current_cell = self.display.contains(&(x, y));
+                    if current_cell {
+                        cells_turned_off = true;
+                        self.display.remove(&(x, y));
+                    } else {
+                        self.display.insert((x, y));
+                    }
+                }
+            }
+        }
+        return cells_turned_off;
     }
 }
