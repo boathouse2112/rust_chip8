@@ -1,83 +1,184 @@
 mod chip_8;
-mod display_canvas;
 
 use chip_8::Chip8;
-use crossterm::{
-    event::{
-        self, poll, read, DisableMouseCapture, EnableMouseCapture, Event, KeyCode, KeyEvent,
-        KeyModifiers, ModifierKeyCode,
-    },
-    execute,
-    terminal::{disable_raw_mode, enable_raw_mode, EnterAlternateScreen, LeaveAlternateScreen},
+use sdl2::{
+    event::Event,
+    keyboard::Keycode,
+    pixels::Color,
+    rect::Rect,
+    render::{Canvas, Texture, TextureCreator},
+    video::Window,
+    video::WindowContext,
 };
-use display_canvas::DisplayCanvas;
 use std::{
     collections::{HashMap, HashSet},
-    fs, io,
-    sync::mpsc::{self, Sender},
-    thread,
+    fs, thread,
     time::{Duration, Instant},
 };
-use tui::{
-    backend::{Backend, CrosstermBackend},
-    style::Color,
-    widgets::{
-        canvas::{Canvas, Context, Points, Rectangle},
-        Block, Borders,
-    },
-    Frame, Terminal,
-};
 
-const TICKS_PER_SECOND: i32 = 700;
+const SQUARE_SIZE: i32 = 16;
 
-fn main() -> Result<(), Box<dyn std::error::Error>> {
-    // Set up terminal
-    enable_raw_mode()?;
-    let mut stdout = io::stdout();
-    execute!(stdout, EnterAlternateScreen, EnableMouseCapture)?;
-    let backend = CrosstermBackend::new(stdout);
-    let mut terminal = Terminal::new(backend)?;
+type Err = Box<dyn std::error::Error>;
+
+fn main() -> Result<(), Err> {
+    let key_code_to_chip_8_key: HashMap<Keycode, u8> = HashMap::from([
+        (Keycode::Num1, 1),
+        (Keycode::Num2, 2),
+        (Keycode::Num3, 3),
+        (Keycode::Num4, 0xC),
+        (Keycode::Q, 4),
+        (Keycode::W, 5),
+        (Keycode::E, 6),
+        (Keycode::R, 0xD),
+        (Keycode::A, 7),
+        (Keycode::S, 8),
+        (Keycode::D, 9),
+        (Keycode::F, 0xE),
+        (Keycode::Z, 0xA),
+        (Keycode::X, 0),
+        (Keycode::C, 0xB),
+        (Keycode::V, 0xF),
+    ]);
+
+    // Initialize SDL2
+    let sdl_context = sdl2::init()?;
+    let video_subsystem = sdl_context.video()?;
+
+    let window = video_subsystem
+        .window(
+            "chip_8",
+            (chip_8::DISPLAY_WIDTH * SQUARE_SIZE) as u32,
+            (chip_8::DISPLAY_HEIGHT * SQUARE_SIZE) as u32,
+        )
+        .position_centered()
+        .build()?;
+
+    let mut canvas = window
+        .into_canvas()
+        .target_texture()
+        .present_vsync()
+        .build()?;
+
+    println!("Using SDL_Renderer \"{}\"", canvas.info().name);
+    canvas.set_draw_color(Color::RGB(0, 0, 0));
+    canvas.clear();
+    canvas.present();
+
+    // Make a little texture for our white square
+    let texture_creator = canvas.texture_creator();
+    let white_square_texture = dummy_texture(&mut canvas, &texture_creator)?;
 
     // Load ROM into CPU memory
     let rom = fs::read("roms/brick.ch8").expect("Can read ROM file");
     let mut chip_8 = Chip8::new();
     chip_8.memory[0x200..0x200 + rom.len()].clone_from_slice(&rom[..]);
-    // chip_8.memory[0x1FF] = 5;
-    // chip_8.memory[0x1FE] = 2;
+    chip_8.memory[0x1FF] = 5;
+    chip_8.memory[0x1FE] = 2;
 
-    // Test run_instruction
-    // for _ in 0..1_000 {
-    //     chip_8.run_cycle();
-    // }
-    // println!("{:?}", cpu.display);
-    // print_grid(chip_8.display);
+    // Game loop
+    let mut event_pump = sdl_context.event_pump()?;
+    let mut held_keys: HashSet<u8> = HashSet::new();
 
-    run_chip_8(&mut terminal, chip_8)?;
+    let ns_per_frame: u64 = hertz::fps_to_ns_per_frame(chip_8::FRAMES_PER_SECOND as usize);
+    let mut last_frame = Instant::now();
+    'running: loop {
+        // Get inputs
+        for event in event_pump.poll_iter() {
+            match event {
+                Event::Quit { .. }
+                | Event::KeyDown {
+                    keycode: Some(Keycode::Escape),
+                    ..
+                } => break 'running,
+                Event::KeyDown {
+                    keycode: Some(keycode),
+                    repeat: false,
+                    ..
+                } => {
+                    // Add chip_8-relevant keys to held_keys
+                    if let Some(&chip_8_key) = key_code_to_chip_8_key.get(&keycode) {
+                        held_keys.insert(chip_8_key);
+                    }
+                }
+                Event::KeyUp {
+                    keycode: Some(keycode),
+                    repeat: false,
+                    ..
+                } => {
+                    if let Some(&chip_8_key) = key_code_to_chip_8_key.get(&keycode) {
+                        held_keys.remove(&chip_8_key);
+                    }
+                }
+                _ => {}
+            }
+        }
 
+        // Decrement counters
+        chip_8.decrement_counters();
+
+        // Run n cycles
+        for _ in 0..chip_8::INSTRUCTIONS_PER_FRAME {
+            chip_8.run_cycle(&held_keys);
+        }
+
+        draw(&mut canvas, &white_square_texture, &chip_8)?;
+
+        let time_remaining =
+            Duration::from_nanos(ns_per_frame).saturating_sub(last_frame.elapsed());
+
+        thread::sleep(time_remaining);
+    }
+
+    Ok(())
+
+    // let mut held_keys: HashSet<u8> = HashSet::new();
     // loop {
-    //     terminal.draw(|f| ui(f, &chip_8))?;
-    //     if event::poll(Duration::new(1, 0))? {
-    //         if let Event::Key(key) = event::read()? {
-    //             match key.code {
-    //                 KeyCode::Char('q') => {
-    //                     break;
-    //                 }
-    //                 _ => {}
-    //             }
+    //     engine.wait_frame();
+
+    //     // Quit if CTRL-C is held down
+    //     if engine.is_key_pressed_with_modifier(KeyCode::Char('c'), KeyModifiers::CONTROL) {
+    //         break;
+    //     }
+
+    //     let mut held_keys_changed = false;
+    //     for (&key_code, &chip_8_key) in key_code_to_chip_8_key.into_iter() {
+    //         if engine.is_key_pressed(KeyCode::Char(key_code)) {
+    //             held_keys_changed = true;
+    //             held_keys.insert(chip_8_key);
     //         }
+    //         if engine.is_key_released(KeyCode::Char(key_code)) {
+    //             held_keys_changed = true;
+    //             held_keys.remove(&chip_8_key);
+    //         }
+    //     }
+
+    //     draw(&mut engine, &chip_8, &held_keys, held_keys_changed);
+
+    //     // Decrement counters
+    //     chip_8.decrement_counters();
+
+    //     // Run n cycles
+    //     for _ in 0..chip_8::INSTRUCTIONS_PER_FRAME {
+    //         chip_8.run_cycle(&held_keys);
     //     }
     // }
 
-    // restore terminal
-    disable_raw_mode()?;
-    execute!(
-        terminal.backend_mut(),
-        LeaveAlternateScreen,
-        DisableMouseCapture
-    )?;
-    terminal.show_cursor()?;
+    // Ok(())
+}
 
-    Ok(())
+fn dummy_texture<'a>(
+    canvas: &mut Canvas<Window>,
+    texture_creator: &'a TextureCreator<WindowContext>,
+) -> Result<Texture<'a>, Err> {
+    let mut white_square =
+        texture_creator.create_texture_target(None, SQUARE_SIZE as u32, SQUARE_SIZE as u32)?;
+
+    canvas.with_texture_canvas(&mut white_square, |texture_canvas| {
+        texture_canvas.set_draw_color(Color::RGB(255, 255, 255));
+        texture_canvas.clear();
+    })?;
+
+    Ok(white_square)
 }
 
 fn print_grid(display: HashSet<(i32, i32)>) {
@@ -94,68 +195,35 @@ fn print_grid(display: HashSet<(i32, i32)>) {
     }
 }
 
-fn run_chip_8<B: Backend>(
-    terminal: &mut Terminal<B>,
-    mut chip_8: Chip8,
-) -> Result<(), Box<dyn std::error::Error>> {
-    let ns_per_tick = hertz::fps_to_ns_per_frame(TICKS_PER_SECOND as usize);
-    let tick_duration = Duration::from_nanos(ns_per_tick);
-    let mut last_tick = Instant::now();
-    let mut held_key: Option<u8> = None;
-    // Draw, tick, wait for input.
-    loop {
-        // Draw this frame
-        terminal.draw(|f| ui(f, &chip_8))?;
+fn draw(canvas: &mut Canvas<Window>, square_texture: &Texture, chip_8: &Chip8) -> Result<(), Err> {
+    canvas.set_draw_color(Color::RGB(0, 0, 0));
+    canvas.clear();
 
-        // Run a CPU cycle
-        chip_8.run_cycle(held_key);
-
-        // Get MAX(current_time - last_tick, 0)
-        let time_remaining = tick_duration
-            .checked_sub(last_tick.elapsed())
-            .unwrap_or_else(|| Duration::from_secs(0));
-
-        // Spend the rest of the frame waiting on input
-        if event::poll(time_remaining)? {
-            if let Event::Key(key) = event::read()? {
-                // Return on control-c
-                if key.modifiers.contains(KeyModifiers::CONTROL) && key.code == KeyCode::Char('c') {
-                    return Ok(());
-                }
-                match key.code {
-                    KeyCode::Char('1') => held_key = Some(1),
-                    KeyCode::Char('2') => held_key = Some(2),
-                    KeyCode::Char('3') => held_key = Some(3),
-                    KeyCode::Char('4') => held_key = Some(0xC),
-                    KeyCode::Char('q') => held_key = Some(4),
-                    KeyCode::Char('w') => held_key = Some(5),
-                    KeyCode::Char('e') => held_key = Some(6),
-                    KeyCode::Char('r') => held_key = Some(0xD),
-                    KeyCode::Char('a') => held_key = Some(7),
-                    KeyCode::Char('s') => held_key = Some(8),
-                    KeyCode::Char('d') => held_key = Some(9),
-                    KeyCode::Char('f') => held_key = Some(0xE),
-                    KeyCode::Char('z') => held_key = Some(0xA),
-                    KeyCode::Char('x') => held_key = Some(0),
-                    KeyCode::Char('c') => held_key = Some(0xB),
-                    KeyCode::Char('v') => held_key = Some(0xF),
-                    _ => held_key = None,
-                }
-            }
-        }
-
-        last_tick = Instant::now();
+    for (x, y) in chip_8.display.iter() {
+        canvas.copy(
+            square_texture,
+            None,
+            Rect::new(
+                x * SQUARE_SIZE as i32,
+                y * SQUARE_SIZE as i32,
+                SQUARE_SIZE as u32,
+                SQUARE_SIZE as u32,
+            ),
+        )?;
     }
-}
 
-fn ui<B: Backend>(f: &mut Frame<B>, chip_8: &Chip8) {
-    let display = DisplayCanvas::new(&chip_8.display);
+    canvas.present();
+    Ok(())
 
-    // let canvas = Canvas::default()
-    //     .block(Block::default().borders(Borders::ALL).title("Chip 8"))
-    //     .paint(|ctx| draw_rects(ctx, chip_8))
-    //     .x_bounds([0.0, chip_8::DISPLAY_WIDTH as f64])
-    //     .y_bounds([0.0, chip_8::DISPLAY_HEIGHT as f64]);
+    // for x in 0..engine.get_width() {
+    //     for y in 0..engine.get_height() {
+    //         let cell_on = chip_8.display.contains(&(x as i32, y as i32));
+    //         let color = if cell_on { Color::White } else { Color::Black };
+    //         engine.set_pxl(x as i32, y as i32, pixel::pxl_bg(' ', color))
+    //     }
+    // }
 
-    f.render_widget(display, f.size());
+    // engine.print(0, 0, &format!("{:?}", held_keys));
+
+    // engine.draw();
 }

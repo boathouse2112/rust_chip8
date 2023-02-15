@@ -1,7 +1,13 @@
-use std::{collections::HashSet, num::Wrapping};
+use std::{
+    collections::{HashMap, HashSet},
+    num::Wrapping,
+};
 
 use byteorder::{BigEndian, ByteOrder};
 use rand::random;
+
+pub const FRAMES_PER_SECOND: i32 = 60;
+pub const INSTRUCTIONS_PER_FRAME: i32 = 16;
 
 pub const DISPLAY_WIDTH: i32 = 64;
 pub const DISPLAY_HEIGHT: i32 = 32;
@@ -62,8 +68,13 @@ impl Chip8 {
         };
     }
 
+    pub fn decrement_counters(&mut self) {
+        self.dt = self.dt.saturating_sub(1);
+        self.st = self.st.saturating_sub(1);
+    }
+
     // Actually this runs a cycle
-    pub fn run_cycle(&mut self, held_key: Option<u8>) {
+    pub fn run_cycle(&mut self, held_keys: &HashSet<u8>) {
         // Read instruction
         let pc_idx = self.pc as usize;
         let instruction = BigEndian::read_u16(&self.memory[pc_idx..pc_idx + 2]);
@@ -222,20 +233,27 @@ impl Chip8 {
                     .into();
             }
             // EX9E -- Skip the next instruction if the key vX is pressed
-            _ if instruction & 0xF0FF == 0xE09E => match held_key {
-                Some(key) if key == self.v[x_nibble as usize] => self.pc += 2,
-                _ => {}
-            },
+            _ if instruction & 0xF0FF == 0xE09E => {
+                let v_x = self.v[x_nibble as usize];
+                if held_keys.contains(&v_x) {
+                    self.pc += 2;
+                }
+            }
             // EXA1 -- Skip the next instruction if the key vX is not pressed
-            _ if instruction & 0xF0FF == 0xE0A1 => match held_key {
-                Some(key) if key == self.v[x_nibble as usize] => {}
-                _ => self.pc += 2,
-            },
+            _ if instruction & 0xF0FF == 0xE0A1 => {
+                let x = x_nibble as usize;
+                if !held_keys.contains(&self.v[x]) {
+                    self.pc += 2;
+                }
+            }
             // FX0A -- Wait for a keypress and store the result in vX
-            _ if instruction & 0xF0FF == 0xF00A => match held_key {
-                Some(key) => self.v[x_nibble as usize] = key,
-                _ => self.pc -= 2,
-            },
+            _ if instruction & 0xF0FF == 0xF00A => {
+                let x = x_nibble as usize;
+                match held_keys.iter().next() {
+                    Some(&key) => self.v[x] = key,
+                    None => self.pc -= 2,
+                }
+            }
             // FX07 -- Set vX to the value of dt
             _ if instruction & 0xF0FF == 0xF007 => {
                 self.v[x_nibble as usize] = self.dt;
@@ -338,6 +356,8 @@ impl Chip8 {
 
 #[cfg(test)]
 mod test {
+    use std::collections::HashSet;
+
     use super::Chip8;
 
     #[test]
@@ -348,7 +368,7 @@ mod test {
         chip_8.memory[0x200] = 0x1E;
         chip_8.memory[0x201] = 0xEE;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0xEEE);
     }
 
@@ -360,7 +380,7 @@ mod test {
         chip_8.memory[0x200] = 0xA0;
         chip_8.memory[0x201] = 0xEF;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
 
         assert_eq!(chip_8.i, 0x0EF);
 
@@ -370,8 +390,8 @@ mod test {
         chip_8.memory[0x204] = 0x6F;
         chip_8.memory[0x205] = 0x01;
 
-        chip_8.run_cycle(None);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
+        chip_8.run_cycle(&HashSet::new());
 
         assert_eq!(chip_8.v[0], 0xEF);
         assert_eq!(chip_8.v[0xF], 0x01);
@@ -407,7 +427,7 @@ mod test {
         chip_8.memory[0x50E] = 0x10;
         chip_8.memory[0x50F] = 0x01;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
 
         // Check all registers are correct.
         assert_eq!(chip_8.v[0], 0xFE);
@@ -448,12 +468,12 @@ mod test {
         chip_8.memory[0x206] = 0xA2; // Not skipped, sets I to 0x222
         chip_8.memory[0x207] = 0x22;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x204);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x206);
         assert_eq!(chip_8.i, 0x100);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x208);
         assert_eq!(chip_8.i, 0x222);
 
@@ -471,12 +491,12 @@ mod test {
         chip_8.memory[0x306] = 0xA3; // Not skipped, sets I to 0x333
         chip_8.memory[0x307] = 0x33;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x304);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x306);
         assert_eq!(chip_8.i, 0x100);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x308);
         assert_eq!(chip_8.i, 0x333);
 
@@ -496,12 +516,12 @@ mod test {
         chip_8.memory[0x406] = 0xA3; // Not skipped, sets I to 0x333
         chip_8.memory[0x407] = 0x33;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x404);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x406);
         assert_eq!(chip_8.i, 0x100);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x408);
         assert_eq!(chip_8.i, 0x333);
 
@@ -521,12 +541,12 @@ mod test {
         chip_8.memory[0x506] = 0xA3; // Not skipped, sets I to 0x333
         chip_8.memory[0x507] = 0x33;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x504);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x506);
         assert_eq!(chip_8.i, 0x100);
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
         assert_eq!(chip_8.pc, 0x508);
         assert_eq!(chip_8.i, 0x333);
     }
@@ -543,7 +563,7 @@ mod test {
         chip_8.memory[0x200] = 0x00;
         chip_8.memory[0x201] = 0xE0;
 
-        chip_8.run_cycle(None);
+        chip_8.run_cycle(&HashSet::new());
 
         assert!(chip_8.display.is_empty());
     }
