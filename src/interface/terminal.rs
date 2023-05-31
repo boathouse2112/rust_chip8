@@ -7,11 +7,11 @@ use std::{
 
 use crossterm::{
     cursor,
-    event::{self, Event, KeyCode, KeyEvent, KeyEventKind, KeyModifiers},
     style::Print,
     terminal::{self, ClearType},
-    ExecutableCommand, QueueableCommand,
+    QueueableCommand,
 };
+use device_query::{DeviceQuery, DeviceState, Keycode};
 use log::debug;
 
 use crate::{
@@ -21,119 +21,110 @@ use crate::{
 
 use super::Interface;
 
-const KEY_HOLD_DURATION: Duration = Duration::from_millis(600);
-
 lazy_static! {
-    static ref KEY_CODE_TO_CHIP_8_KEY: HashMap<KeyCode, u8> = HashMap::from([
-        (KeyCode::Char('1'), 1),
-        (KeyCode::Char('2'), 2),
-        (KeyCode::Char('3'), 3),
-        (KeyCode::Char('4'), 0xC),
-        (KeyCode::Char('q'), 4),
-        (KeyCode::Char('w'), 5),
-        (KeyCode::Char('e'), 6),
-        (KeyCode::Char('r'), 0xD),
-        (KeyCode::Char('a'), 7),
-        (KeyCode::Char('s'), 8),
-        (KeyCode::Char('d'), 9),
-        (KeyCode::Char('f'), 0xE),
-        (KeyCode::Char('z'), 0xA),
-        (KeyCode::Char('x'), 0),
-        (KeyCode::Char('c'), 0xB),
-        (KeyCode::Char('v'), 0xF),
+    static ref KEY_CODE_TO_CHIP_8_KEY: HashMap<Keycode, u8> = HashMap::from([
+        (Keycode::Key1, 1),
+        (Keycode::Key2, 2),
+        (Keycode::Key3, 3),
+        (Keycode::Key4, 0xC),
+        (Keycode::Q, 4),
+        (Keycode::W, 5),
+        (Keycode::E, 6),
+        (Keycode::R, 0xD),
+        (Keycode::A, 7),
+        (Keycode::S, 8),
+        (Keycode::D, 9),
+        (Keycode::F, 0xE),
+        (Keycode::Z, 0xA),
+        (Keycode::X, 0),
+        (Keycode::C, 0xB),
+        (Keycode::V, 0xF),
     ]);
 }
 
-pub struct Terminal {}
+pub struct Terminal {
+    stdout: Stdout,
+    device_state: DeviceState,
+}
 
 impl Terminal {
     pub fn new() -> Self {
-        Terminal {}
+        let stdout = stdout();
+        let device_state = DeviceState::new();
+        Terminal {
+            stdout,
+            device_state,
+        }
     }
 }
 
 impl Interface for Terminal {
     fn run(&mut self, chip_8: &mut Chip8) -> Result<(), crate::globals::Err> {
-        let mut stdout = stdout();
+        // Terminal setup
         terminal::enable_raw_mode()?;
-
-        stdout.execute(terminal::Clear(ClearType::All))?;
-        stdout.execute(cursor::Hide)?;
+        self.stdout
+            .queue(terminal::EnterAlternateScreen)?
+            .queue(terminal::Clear(ClearType::All))?
+            .queue(cursor::Hide)?;
 
         let ns_per_frame: u64 = hertz::fps_to_ns_per_frame(chip_8::FRAMES_PER_SECOND as usize);
-        let mut last_frame_end = Instant::now();
 
         // Game loop
-        let mut held_keys: HashMap<u8, Instant> = HashMap::new();
+        let mut last_frame_end = Instant::now();
         let mut last_frame_display = chip_8.display.clone();
-
-        'game_loop: loop {
-            let start_time = Instant::now();
-
+        loop {
             let frame_start = Instant::now();
 
+            let mut held_keys = HashSet::new();
+
             // Read keys
-            while event::poll(Duration::ZERO)? {
-                match event::read()? {
-                    Event::Key(KeyEvent {
-                        code: KeyCode::Esc, ..
-                    })
-                    | Event::Key(KeyEvent {
-                        code: KeyCode::Char('c'),
-                        modifiers: KeyModifiers::CONTROL,
-                        ..
-                    }) => break 'game_loop,
+            let keys = self.device_state.get_keys();
 
-                    // The release event never happens, so we use duration since last keypress to mimic it.
-                    Event::Key(KeyEvent { code, kind, .. }) => {
-                        if let Some(&chip_8_key) = KEY_CODE_TO_CHIP_8_KEY.get(&code) {
-                            held_keys.insert(chip_8_key, frame_start);
-                        }
-                    }
-
-                    _ => {}
-                }
+            // Break out if ESC or CTRL-C are pressed
+            if keys.contains(&Keycode::Escape)
+                || (keys.contains(&Keycode::LControl) && keys.contains(&Keycode::C))
+            {
+                break;
             }
 
-            // Remove stale keypresses
-            held_keys = held_keys
-                .into_iter()
-                .filter(|(_, timestamp)| (frame_start - *timestamp) < KEY_HOLD_DURATION)
-                .collect();
-
-            let held_keys_set: HashSet<u8> = held_keys.keys().copied().collect();
+            for key_code in keys {
+                if let Some(&chip_8_key) = KEY_CODE_TO_CHIP_8_KEY.get(&key_code) {
+                    held_keys.insert(chip_8_key);
+                }
+            }
 
             // Decrement counters
             chip_8.decrement_counters();
 
             // Run n cycles
             for _ in 0..chip_8::INSTRUCTIONS_PER_FRAME {
-                chip_8.run_cycle(&held_keys_set);
+                chip_8.run_cycle(&held_keys);
             }
 
-            draw(
-                &chip_8.display,
-                &last_frame_display,
-                &held_keys_set,
-                &mut stdout,
-            )?;
+            draw(&chip_8.display, &last_frame_display, &mut self.stdout)?;
 
             let time_remaining =
                 Duration::from_nanos(ns_per_frame).saturating_sub(last_frame_end.elapsed());
-
             debug!("Time remaining: {} ms", time_remaining.as_millis());
+
             thread::sleep(time_remaining);
+            let frame_end = Instant::now();
+
+            debug!(
+                "Frame duration: {} ms",
+                (frame_end - frame_start).as_millis()
+            );
 
             last_frame_display = chip_8.display.clone();
-            last_frame_end = Instant::now();
-
-            let end_time = Instant::now();
-            debug!("Frame duration: {} ms", (end_time - start_time).as_millis());
+            last_frame_end = frame_end;
         }
 
-        stdout.execute(cursor::Show)?;
-        debug!("disable_raw_mode");
+        // Cleanup
+        self.stdout
+            .queue(cursor::Show)?
+            .queue(terminal::LeaveAlternateScreen)?;
         terminal::disable_raw_mode()?;
+
         Ok(())
     }
 }
@@ -141,16 +132,10 @@ impl Interface for Terminal {
 fn draw(
     display: &HashSet<(i32, i32)>,
     last_frame_display: &HashSet<(i32, i32)>,
-    held_keys: &HashSet<u8>,
     stdout: &mut Stdout,
 ) -> Result<(), Err> {
     // Get a diff between last_frame_display and display,
     // And execute changes to get to the current frame
-
-    stdout
-        .queue(cursor::MoveTo(0, 0))?
-        .queue(Print(format!("{:?}              ", held_keys)))?
-        .queue(cursor::MoveToNextLine(2))?;
 
     #[derive(Clone, Copy, Debug)]
     enum Op {

@@ -1,7 +1,4 @@
-use std::{
-    collections::{HashMap, HashSet},
-    num::Wrapping,
-};
+use std::{collections::HashSet, num::Wrapping};
 
 use byteorder::{BigEndian, ByteOrder};
 use rand::random;
