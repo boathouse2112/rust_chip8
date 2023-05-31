@@ -32,6 +32,7 @@ const FONT: [u8; 80] = [
     0xF0, 0x80, 0xF0, 0x80, 0x80, // F
 ];
 
+#[derive(Clone)]
 pub struct Chip8 {
     // Memory 4096 bytes
     pub memory: [u8; 4096],

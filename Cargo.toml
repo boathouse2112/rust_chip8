@@ -8,7 +8,10 @@ edition = "2021"
 [dependencies]
 bit-iter = "1.1.1"
 byteorder = "1.4.3"
+crossterm = "0.26.1"
 hertz = "0.3.0"
-phf = { version = "0.11.1", features = ["macros"] }
+lazy_static = "1.4.0"
+log = "0.4.18"
 rand = "0.8.5"
 sdl2 = "0.35.2"
+simple-logging = "2.0.2"

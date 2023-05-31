@@ -1,0 +1,592 @@
+[00:00:00.000] (20e0cc140) DEBUG  [Add(8, 6), Add(11, 6), Add(10, 6), Add(0, 6), Add(3, 6), Add(2, 6), Add(7, 6), Add(1, 6), Add(5, 6), Add(9, 6), Add(4, 6), Add(6, 6)]
+[00:00:00.001] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.021] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.021] (20e0cc140) DEBUG  [Add(20, 6), Add(14, 6), Add(12, 6), Add(17, 6), Add(22, 6), Add(19, 6), Add(13, 6), Add(21, 6), Add(15, 6), Add(23, 6), Add(18, 6), Add(16, 6)]
+[00:00:00.021] (20e0cc140) DEBUG  Time remaining: 16 ms
+[00:00:00.042] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.042] (20e0cc140) DEBUG  [Add(26, 6), Add(28, 6), Add(32, 6), Add(30, 6), Add(27, 6), Add(25, 6), Add(29, 6), Add(31, 6), Add(24, 6), Add(33, 6), Add(35, 6), Add(34, 6)]
+[00:00:00.042] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.062] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.063] (20e0cc140) DEBUG  [Add(47, 6), Add(40, 6), Add(38, 6), Add(36, 6), Add(44, 6), Add(41, 6), Add(42, 6), Add(43, 6), Add(45, 6), Add(37, 6), Add(39, 6), Add(46, 6)]
+[00:00:00.063] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.083] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.084] (20e0cc140) DEBUG  [Add(59, 6), Add(57, 6), Add(55, 6), Add(56, 6), Add(58, 6), Add(50, 6), Add(48, 6), Add(49, 6), Add(52, 6), Add(53, 6), Add(54, 6), Add(51, 6)]
+[00:00:00.085] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.104] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.104] (20e0cc140) DEBUG  [Add(63, 6), Add(61, 6), Add(62, 6), Add(60, 6), Add(2, 7), Add(6, 7), Add(3, 7), Add(4, 7), Add(5, 7), Add(0, 7), Add(1, 7), Add(7, 7)]
+[00:00:00.105] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.121] (20e0cc140) DEBUG  Frame duration: 16 ms
+[00:00:00.122] (20e0cc140) DEBUG  [Add(10, 7), Add(15, 7), Add(12, 7), Add(11, 7), Add(16, 7), Add(8, 7), Add(19, 7), Add(14, 7), Add(18, 7), Add(13, 7), Add(9, 7), Add(17, 7)]
+[00:00:00.123] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.141] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.141] (20e0cc140) DEBUG  [Add(24, 7), Add(29, 7), Add(21, 7), Add(23, 7), Add(31, 7), Add(30, 7), Add(22, 7), Add(28, 7), Add(27, 7), Add(26, 7), Add(20, 7), Add(25, 7)]
+[00:00:00.142] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.161] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.161] (20e0cc140) DEBUG  [Add(46, 7), Add(47, 7), Add(45, 7), Add(33, 7), Add(44, 7), Add(42, 7), Add(36, 7), Add(32, 7), Add(38, 7), Add(35, 7), Add(39, 7), Add(41, 7), Add(37, 7), Add(43, 7), Add(40, 7), Add(34, 7)]
+[00:00:00.162] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.181] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.182] (20e0cc140) DEBUG  [Add(48, 7), Add(50, 7), Add(51, 7), Add(58, 7), Add(54, 7), Add(55, 7), Add(57, 7), Add(52, 7), Add(49, 7), Add(59, 7), Add(56, 7), Add(53, 7)]
+[00:00:00.183] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.202] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.202] (20e0cc140) DEBUG  [Add(63, 7), Add(61, 7), Add(62, 7), Add(60, 7), Add(1, 8), Add(0, 8), Add(3, 8), Add(2, 8)]
+[00:00:00.203] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.223] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.223] (20e0cc140) DEBUG  [Add(11, 8), Add(14, 8), Add(17, 8), Add(12, 8), Add(9, 8), Add(6, 8), Add(7, 8), Add(15, 8), Add(13, 8), Add(16, 8), Add(10, 8), Add(4, 8), Add(8, 8), Add(5, 8), Add(18, 8), Add(19, 8)]
+[00:00:00.224] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.243] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.244] (20e0cc140) DEBUG  [Add(20, 8), Add(23, 8), Add(27, 8), Add(25, 8), Add(21, 8), Add(26, 8), Add(22, 8), Add(28, 8), Add(24, 8), Add(30, 8), Add(31, 8), Add(29, 8)]
+[00:00:00.245] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.263] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.264] (20e0cc140) DEBUG  [Add(37, 8), Add(42, 8), Add(38, 8), Add(33, 8), Add(41, 8), Add(39, 8), Add(35, 8), Add(36, 8), Add(40, 8), Add(32, 8), Add(34, 8), Add(43, 8)]
+[00:00:00.265] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.281] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:00.281] (20e0cc140) DEBUG  [Add(52, 8), Add(53, 8), Add(54, 8), Add(46, 8), Add(48, 8), Add(47, 8), Add(49, 8), Add(55, 8), Add(51, 8), Add(44, 8), Add(45, 8), Add(50, 8)]
+[00:00:00.282] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.302] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.302] (20e0cc140) DEBUG  [Add(61, 8), Add(57, 8), Add(62, 8), Add(60, 8), Add(58, 8), Add(56, 8), Add(59, 8), Add(63, 8), Add(2, 9), Add(0, 9), Add(3, 9), Add(1, 9)]
+[00:00:00.303] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.322] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.323] (20e0cc140) DEBUG  [Add(14, 9), Add(4, 9), Add(6, 9), Add(9, 9), Add(13, 9), Add(12, 9), Add(11, 9), Add(8, 9), Add(10, 9), Add(7, 9), Add(15, 9), Add(5, 9)]
+[00:00:00.323] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.343] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.344] (20e0cc140) DEBUG  [Add(21, 9), Add(22, 9), Add(16, 9), Add(17, 9), Add(18, 9), Add(20, 9), Add(24, 9), Add(26, 9), Add(27, 9), Add(19, 9), Add(25, 9), Add(23, 9)]
+[00:00:00.345] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.364] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.364] (20e0cc140) DEBUG  [Add(30, 9), Add(39, 9), Add(35, 9), Add(33, 9), Add(37, 9), Add(31, 9), Add(34, 9), Add(38, 9), Add(29, 9), Add(28, 9), Add(32, 9), Add(36, 9)]
+[00:00:00.365] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.382] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:00.383] (20e0cc140) DEBUG  [Add(48, 9), Add(42, 9), Add(53, 9), Add(50, 9), Add(49, 9), Add(43, 9), Add(41, 9), Add(51, 9), Add(52, 9), Add(55, 9), Add(54, 9), Add(44, 9), Add(47, 9), Add(45, 9), Add(40, 9), Add(46, 9)]
+[00:00:00.384] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.402] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.402] (20e0cc140) DEBUG  [Add(61, 9), Add(56, 9), Add(60, 9), Add(59, 9), Add(57, 9), Add(63, 9), Add(62, 9), Add(58, 9)]
+[00:00:00.403] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.421] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.423] (20e0cc140) DEBUG  [Add(10, 10), Add(3, 10), Add(2, 10), Add(1, 10), Add(5, 10), Add(8, 10), Add(0, 10), Add(7, 10), Add(6, 10), Add(11, 10), Add(4, 10), Add(9, 10)]
+[00:00:00.424] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.439] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:00.440] (20e0cc140) DEBUG  [Add(14, 10), Add(26, 10), Add(24, 10), Add(20, 10), Add(16, 10), Add(23, 10), Add(22, 10), Add(21, 10), Add(27, 10), Add(17, 10), Add(12, 10), Add(13, 10), Add(15, 10), Add(19, 10), Add(25, 10), Add(18, 10)]
+[00:00:00.441] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.460] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.461] (20e0cc140) DEBUG  [Add(33, 10), Add(37, 10), Add(29, 10), Add(35, 10), Add(30, 10), Add(28, 10), Add(38, 10), Add(39, 10), Add(36, 10), Add(31, 10), Add(34, 10), Add(32, 10)]
+[00:00:00.462] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.478] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:00.479] (20e0cc140) DEBUG  [Add(49, 10), Add(40, 10), Add(42, 10), Add(43, 10), Add(51, 10), Add(50, 10), Add(48, 10), Add(45, 10), Add(47, 10), Add(44, 10), Add(41, 10), Add(46, 10)]
+[00:00:00.480] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.499] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.500] (20e0cc140) DEBUG  [Add(57, 10), Add(53, 10), Add(61, 10), Add(54, 10), Add(56, 10), Add(60, 10), Add(59, 10), Add(62, 10), Add(52, 10), Add(58, 10), Add(55, 10), Add(63, 10)]
+[00:00:00.500] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.519] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.520] (20e0cc140) DEBUG  [Add(1, 11), Add(6, 11), Add(3, 11), Add(5, 11), Add(10, 11), Add(11, 11), Add(8, 11), Add(2, 11), Add(9, 11), Add(0, 11), Add(4, 11), Add(7, 11)]
+[00:00:00.521] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.538] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:00.539] (20e0cc140) DEBUG  [Add(15, 11), Add(21, 11), Add(13, 11), Add(23, 11), Add(22, 11), Add(18, 11), Add(19, 11), Add(12, 11), Add(17, 11), Add(20, 11), Add(14, 11), Add(16, 11)]
+[00:00:00.540] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.559] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.560] (20e0cc140) DEBUG  [Add(32, 11), Add(24, 11), Add(30, 11), Add(31, 11), Add(34, 11), Add(25, 11), Add(28, 11), Add(35, 11), Add(29, 11), Add(27, 11), Add(33, 11), Add(26, 11)]
+[00:00:00.560] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:00.579] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.581] (20e0cc140) DEBUG  [Add(37, 11), Add(42, 11), Add(39, 11), Add(38, 11), Add(36, 11), Add(45, 11), Add(47, 11), Add(40, 11), Add(41, 11), Add(46, 11), Add(43, 11), Add(44, 11)]
+[00:00:00.581] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.600] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.601] (20e0cc140) DEBUG  [Add(62, 11), Add(52, 11), Add(59, 11), Add(58, 11), Add(56, 11), Add(48, 11), Add(54, 11), Add(60, 11), Add(53, 11), Add(55, 11), Add(49, 11), Add(61, 11), Add(57, 11), Add(50, 11), Add(63, 11), Add(51, 11)]
+[00:00:00.602] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.621] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.622] (20e0cc140) DEBUG  [Add(3, 12), Add(7, 12), Add(0, 12), Add(5, 12), Add(1, 12), Add(6, 12), Add(4, 12), Add(2, 12)]
+[00:00:00.623] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.641] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.642] (20e0cc140) DEBUG  [Add(18, 12), Add(15, 12), Add(19, 12), Add(8, 12), Add(16, 12), Add(17, 12), Add(12, 12), Add(10, 12), Add(14, 12), Add(13, 12), Add(9, 12), Add(11, 12)]
+[00:00:00.643] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.659] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:00.661] (20e0cc140) DEBUG  [Add(28, 12), Add(22, 12), Add(29, 12), Add(30, 12), Add(27, 12), Add(20, 12), Add(21, 12), Add(34, 12), Add(31, 12), Add(25, 12), Add(23, 12), Add(35, 12), Add(26, 12), Add(33, 12), Add(32, 12), Add(24, 12)]
+[00:00:00.663] (20e0cc140) DEBUG  Time remaining: 12 ms
+[00:00:00.677] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:00.679] (20e0cc140) DEBUG  [Add(38, 12), Add(37, 12), Add(41, 12), Add(45, 12), Add(46, 12), Add(47, 12), Add(36, 12), Add(43, 12), Add(42, 12), Add(40, 12), Add(39, 12), Add(44, 12)]
+[00:00:00.679] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.697] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.698] (20e0cc140) DEBUG  [Add(54, 12), Add(53, 12), Add(56, 12), Add(52, 12), Add(58, 12), Add(48, 12), Add(51, 12), Add(49, 12), Add(59, 12), Add(55, 12), Add(50, 12), Add(57, 12)]
+[00:00:00.699] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.717] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.719] (20e0cc140) DEBUG  [Add(61, 12), Add(62, 12), Add(63, 12), Add(60, 12), Add(5, 13), Add(0, 13), Add(4, 13), Add(3, 13), Add(6, 13), Add(1, 13), Add(7, 13), Add(2, 13)]
+[00:00:00.720] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.735] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:00.736] (20e0cc140) DEBUG  [Add(14, 13), Add(17, 13), Add(15, 13), Add(12, 13), Add(16, 13), Add(9, 13), Add(19, 13), Add(10, 13), Add(13, 13), Add(18, 13), Add(8, 13), Add(11, 13)]
+[00:00:00.737] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.756] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.757] (20e0cc140) DEBUG  [Add(31, 13), Add(20, 13), Add(23, 13), Add(27, 13), Add(24, 13), Add(28, 13), Add(30, 13), Add(22, 13), Add(26, 13), Add(21, 13), Add(25, 13), Add(29, 13)]
+[00:00:00.758] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.776] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.778] (20e0cc140) DEBUG  [Add(35, 13), Add(40, 13), Add(38, 13), Add(41, 13), Add(34, 13), Add(39, 13), Add(42, 13), Add(43, 13), Add(33, 13), Add(37, 13), Add(36, 13), Add(32, 13)]
+[00:00:00.779] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.797] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.798] (20e0cc140) DEBUG  [Add(47, 13), Add(48, 13), Add(54, 13), Add(44, 13), Add(53, 13), Add(51, 13), Add(45, 13), Add(55, 13), Add(52, 13), Add(50, 13), Add(46, 13), Add(49, 13)]
+[00:00:00.799] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.817] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.818] (20e0cc140) DEBUG  [Add(56, 13), Add(57, 13), Add(60, 13), Add(63, 13), Add(59, 13), Add(62, 13), Add(61, 13), Add(58, 13), Add(3, 14), Add(0, 14), Add(1, 14), Add(2, 14)]
+[00:00:00.819] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.838] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.839] (20e0cc140) DEBUG  [Add(13, 14), Add(10, 14), Add(14, 14), Add(15, 14), Add(12, 14), Add(11, 14), Add(6, 14), Add(5, 14), Add(4, 14), Add(8, 14), Add(9, 14), Add(7, 14)]
+[00:00:00.840] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.858] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.860] (20e0cc140) DEBUG  [Add(18, 14), Add(21, 14), Add(22, 14), Add(24, 14), Add(16, 14), Add(19, 14), Add(25, 14), Add(17, 14), Add(23, 14), Add(27, 14), Add(26, 14), Add(20, 14)]
+[00:00:00.861] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.879] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.880] (20e0cc140) DEBUG  [Add(31, 14), Add(37, 14), Add(36, 14), Add(38, 14), Add(40, 14), Add(33, 14), Add(42, 14), Add(41, 14), Add(32, 14), Add(28, 14), Add(39, 14), Add(29, 14), Add(35, 14), Add(30, 14), Add(43, 14), Add(34, 14)]
+[00:00:00.881] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.899] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.901] (20e0cc140) DEBUG  [Add(55, 14), Add(48, 14), Add(44, 14), Add(49, 14), Add(54, 14), Add(50, 14), Add(47, 14), Add(52, 14), Add(53, 14), Add(51, 14), Add(46, 14), Add(45, 14)]
+[00:00:00.902] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.920] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.921] (20e0cc140) DEBUG  [Add(60, 14), Add(58, 14), Add(56, 14), Add(57, 14), Add(59, 14), Add(61, 14), Add(62, 14), Add(63, 14)]
+[00:00:00.922] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.938] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:00.941] (20e0cc140) DEBUG  [Add(10, 15), Add(6, 15), Add(13, 15), Add(3, 15), Add(2, 15), Add(8, 15), Add(4, 15), Add(14, 15), Add(1, 15), Add(15, 15), Add(11, 15), Add(12, 15), Add(9, 15), Add(5, 15), Add(7, 15), Add(0, 15)]
+[00:00:00.942] (20e0cc140) DEBUG  Time remaining: 12 ms
+[00:00:00.958] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:00.960] (20e0cc140) DEBUG  [Add(27, 15), Add(17, 15), Add(26, 15), Add(18, 15), Add(20, 15), Add(24, 15), Add(22, 15), Add(23, 15), Add(25, 15), Add(21, 15), Add(19, 15), Add(16, 15)]
+[00:00:00.961] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.979] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:00.980] (20e0cc140) DEBUG  [Add(37, 15), Add(32, 15), Add(38, 15), Add(34, 15), Add(29, 15), Add(36, 15), Add(35, 15), Add(31, 15), Add(39, 15), Add(28, 15), Add(33, 15), Add(30, 15)]
+[00:00:00.981] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:00.999] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.001] (20e0cc140) DEBUG  [Add(44, 15), Add(51, 15), Add(42, 15), Add(46, 15), Add(49, 15), Add(48, 15), Add(50, 15), Add(45, 15), Add(40, 15), Add(43, 15), Add(47, 15), Add(41, 15)]
+[00:00:01.002] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.020] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.021] (20e0cc140) DEBUG  [Add(61, 15), Add(63, 15), Add(59, 15), Add(58, 15), Add(60, 15), Add(53, 15), Add(54, 15), Add(62, 15), Add(55, 15), Add(52, 15), Add(57, 15), Add(56, 15)]
+[00:00:01.022] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.040] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.042] (20e0cc140) DEBUG  [Add(7, 16), Add(9, 16), Add(5, 16), Add(4, 16), Add(8, 16), Add(3, 16), Add(6, 16), Add(10, 16), Add(2, 16), Add(11, 16), Add(0, 16), Add(1, 16)]
+[00:00:01.043] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.061] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.063] (20e0cc140) DEBUG  [Add(15, 16), Add(14, 16), Add(19, 16), Add(21, 16), Add(17, 16), Add(18, 16), Add(20, 16), Add(23, 16), Add(13, 16), Add(12, 16), Add(22, 16), Add(16, 16)]
+[00:00:01.063] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.081] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.082] (20e0cc140) DEBUG  [Add(33, 16), Add(34, 16), Add(31, 16), Add(27, 16), Add(35, 16), Add(26, 16), Add(30, 16), Add(24, 16), Add(28, 16), Add(25, 16), Add(29, 16), Add(32, 16)]
+[00:00:01.084] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:01.101] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.103] (20e0cc140) DEBUG  [Add(42, 16), Add(48, 16), Add(45, 16), Add(41, 16), Add(50, 16), Add(40, 16), Add(49, 16), Add(39, 16), Add(38, 16), Add(43, 16), Add(36, 16), Add(37, 16), Add(47, 16), Add(46, 16), Add(51, 16), Add(44, 16)]
+[00:00:01.104] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:01.122] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.123] (20e0cc140) DEBUG  [Add(54, 16), Add(57, 16), Add(60, 16), Add(55, 16), Add(58, 16), Add(63, 16), Add(53, 16), Add(61, 16), Add(56, 16), Add(62, 16), Add(52, 16), Add(59, 16)]
+[00:00:01.124] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.142] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.144] (20e0cc140) DEBUG  [Add(5, 17), Add(4, 17), Add(2, 17), Add(7, 17), Add(3, 17), Add(1, 17), Add(6, 17), Add(0, 17)]
+[00:00:01.144] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.163] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.165] (20e0cc140) DEBUG  [Add(8, 17), Add(14, 17), Add(22, 17), Add(23, 17), Add(20, 17), Add(11, 17), Add(12, 17), Add(9, 17), Add(10, 17), Add(16, 17), Add(21, 17), Add(17, 17), Add(15, 17), Add(19, 17), Add(18, 17), Add(13, 17)]
+[00:00:01.165] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:01.181] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:01.182] (20e0cc140) DEBUG  [Add(27, 17), Add(32, 17), Add(31, 17), Add(33, 17), Add(28, 17), Add(30, 17), Add(29, 17), Add(25, 17), Add(35, 17), Add(34, 17), Add(26, 17), Add(24, 17)]
+[00:00:01.183] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.201] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.203] (20e0cc140) DEBUG  [Add(37, 17), Add(42, 17), Add(36, 17), Add(46, 17), Add(44, 17), Add(38, 17), Add(39, 17), Add(43, 17), Add(40, 17), Add(45, 17), Add(41, 17), Add(47, 17)]
+[00:00:01.203] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.222] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.223] (20e0cc140) DEBUG  [Add(57, 17), Add(59, 17), Add(52, 17), Add(54, 17), Add(53, 17), Add(56, 17), Add(50, 17), Add(55, 17), Add(58, 17), Add(48, 17), Add(49, 17), Add(51, 17)]
+[00:00:01.224] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.239] (20e0cc140) DEBUG  Frame duration: 16 ms
+[00:00:01.240] (20e0cc140) DEBUG  [Add(61, 17), Add(62, 17), Add(63, 17), Add(60, 17), Add(33, 31), Add(36, 31), Add(37, 31), Add(34, 31), Add(35, 31), Add(32, 31)]
+[00:00:01.241] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:01.259] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.261] (20e0cc140) DEBUG  [Add(61, 0), Add(62, 0), Add(56, 0), Add(57, 0), Add(6, 0), Add(8, 0), Add(2, 0), Add(55, 0), Add(4, 0), Add(63, 0), Add(60, 0), Add(58, 0), Add(0, 0), Add(58, 1), Add(63, 1), Add(55, 1), Add(60, 1), Add(60, 2), Add(63, 2), Add(55, 2), Add(58, 2), Add(60, 3), Add(58, 3), Add(63, 3), Add(55, 3), Add(55, 4), Add(63, 4), Add(60, 4), Add(58, 4), Add(57, 4), Add(62, 4), Add(61, 4), Add(56, 4)]
+[00:00:01.263] (20e0cc140) DEBUG  Time remaining: 12 ms
+[00:00:01.279] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.281] (20e0cc140) DEBUG  []
+[00:00:01.281] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.300] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.301] (20e0cc140) DEBUG  []
+[00:00:01.302] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.320] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.322] (20e0cc140) DEBUG  []
+[00:00:01.322] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.339] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.341] (20e0cc140) DEBUG  []
+[00:00:01.342] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.360] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.361] (20e0cc140) DEBUG  []
+[00:00:01.362] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.380] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.382] (20e0cc140) DEBUG  []
+[00:00:01.382] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.401] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.402] (20e0cc140) DEBUG  []
+[00:00:01.402] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:01.422] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.423] (20e0cc140) DEBUG  []
+[00:00:01.424] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.442] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.444] (20e0cc140) DEBUG  []
+[00:00:01.444] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.463] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.465] (20e0cc140) DEBUG  []
+[00:00:01.465] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.483] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.485] (20e0cc140) DEBUG  []
+[00:00:01.485] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.503] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.505] (20e0cc140) DEBUG  []
+[00:00:01.505] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.524] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.526] (20e0cc140) DEBUG  []
+[00:00:01.526] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.544] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.546] (20e0cc140) DEBUG  []
+[00:00:01.546] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.564] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.566] (20e0cc140) DEBUG  []
+[00:00:01.566] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.584] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.586] (20e0cc140) DEBUG  []
+[00:00:01.586] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.605] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.606] (20e0cc140) DEBUG  []
+[00:00:01.607] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.625] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.628] (20e0cc140) DEBUG  []
+[00:00:01.628] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.646] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.648] (20e0cc140) DEBUG  []
+[00:00:01.649] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.666] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.668] (20e0cc140) DEBUG  []
+[00:00:01.668] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.686] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.688] (20e0cc140) DEBUG  []
+[00:00:01.688] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.707] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.709] (20e0cc140) DEBUG  []
+[00:00:01.709] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.727] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.729] (20e0cc140) DEBUG  []
+[00:00:01.729] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.748] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.750] (20e0cc140) DEBUG  []
+[00:00:01.750] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.768] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.770] (20e0cc140) DEBUG  []
+[00:00:01.770] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.789] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.791] (20e0cc140) DEBUG  []
+[00:00:01.791] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.809] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.811] (20e0cc140) DEBUG  []
+[00:00:01.811] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.829] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.831] (20e0cc140) DEBUG  []
+[00:00:01.832] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.847] (20e0cc140) DEBUG  Frame duration: 16 ms
+[00:00:01.849] (20e0cc140) DEBUG  []
+[00:00:01.849] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.867] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.869] (20e0cc140) DEBUG  []
+[00:00:01.869] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.888] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.889] (20e0cc140) DEBUG  []
+[00:00:01.895] (20e0cc140) DEBUG  Time remaining: 9 ms
+[00:00:01.907] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.910] (20e0cc140) DEBUG  []
+[00:00:01.910] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:01.927] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:01.930] (20e0cc140) DEBUG  []
+[00:00:01.930] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:01.948] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:01.950] (20e0cc140) DEBUG  []
+[00:00:01.950] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.966] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:01.968] (20e0cc140) DEBUG  []
+[00:00:01.968] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:01.985] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:01.986] (20e0cc140) DEBUG  []
+[00:00:01.987] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.005] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.007] (20e0cc140) DEBUG  []
+[00:00:02.007] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.026] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.028] (20e0cc140) DEBUG  []
+[00:00:02.028] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.043] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:02.046] (20e0cc140) DEBUG  []
+[00:00:02.046] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:02.064] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.066] (20e0cc140) DEBUG  []
+[00:00:02.066] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.084] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.086] (20e0cc140) DEBUG  []
+[00:00:02.086] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.105] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.107] (20e0cc140) DEBUG  []
+[00:00:02.107] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.126] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.127] (20e0cc140) DEBUG  []
+[00:00:02.127] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.144] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:02.147] (20e0cc140) DEBUG  []
+[00:00:02.147] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:02.165] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:02.167] (20e0cc140) DEBUG  []
+[00:00:02.167] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.185] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.187] (20e0cc140) DEBUG  []
+[00:00:02.187] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.206] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.207] (20e0cc140) DEBUG  []
+[00:00:02.208] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.226] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.228] (20e0cc140) DEBUG  []
+[00:00:02.228] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.247] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.248] (20e0cc140) DEBUG  []
+[00:00:02.249] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.267] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.269] (20e0cc140) DEBUG  []
+[00:00:02.269] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.288] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.290] (20e0cc140) DEBUG  []
+[00:00:02.290] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.309] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.311] (20e0cc140) DEBUG  []
+[00:00:02.311] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.329] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.331] (20e0cc140) DEBUG  []
+[00:00:02.332] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.346] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:02.348] (20e0cc140) DEBUG  []
+[00:00:02.348] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.367] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.369] (20e0cc140) DEBUG  []
+[00:00:02.369] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.388] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.389] (20e0cc140) DEBUG  []
+[00:00:02.390] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.407] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:02.408] (20e0cc140) DEBUG  []
+[00:00:02.409] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.425] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:02.427] (20e0cc140) DEBUG  []
+[00:00:02.428] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.446] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.448] (20e0cc140) DEBUG  []
+[00:00:02.448] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.466] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.468] (20e0cc140) DEBUG  []
+[00:00:02.468] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.487] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.489] (20e0cc140) DEBUG  []
+[00:00:02.489] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.508] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.509] (20e0cc140) DEBUG  []
+[00:00:02.509] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.526] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:02.529] (20e0cc140) DEBUG  []
+[00:00:02.529] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.547] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.549] (20e0cc140) DEBUG  [Add(12, 30), Remove(37, 31), Remove(34, 31), Remove(33, 31), Remove(32, 31), Remove(35, 31), Remove(36, 31)]
+[00:00:02.549] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.567] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.569] (20e0cc140) DEBUG  [Add(13, 29), Remove(12, 30), Add(32, 31), Add(33, 31), Add(34, 31), Add(37, 31), Add(36, 31), Add(35, 31)]
+[00:00:02.569] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.588] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.589] (20e0cc140) DEBUG  [Remove(13, 29)]
+[00:00:02.590] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.608] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.610] (20e0cc140) DEBUG  [Add(14, 28), Remove(36, 31), Remove(33, 31), Remove(37, 31), Remove(35, 31), Remove(34, 31), Remove(32, 31)]
+[00:00:02.611] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:02.628] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.631] (20e0cc140) DEBUG  [Remove(14, 28), Add(33, 31), Add(36, 31), Add(34, 31), Add(32, 31), Add(37, 31), Add(35, 31)]
+[00:00:02.631] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:02.647] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:02.649] (20e0cc140) DEBUG  []
+[00:00:02.649] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.667] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.669] (20e0cc140) DEBUG  [Add(16, 26), Remove(32, 31), Remove(34, 31), Remove(35, 31), Remove(33, 31), Remove(37, 31), Remove(36, 31)]
+[00:00:02.670] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.688] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.689] (20e0cc140) DEBUG  [Remove(16, 26), Add(34, 31), Add(36, 31), Add(33, 31), Add(32, 31), Add(37, 31), Add(35, 31)]
+[00:00:02.690] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.708] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.710] (20e0cc140) DEBUG  [Add(17, 25)]
+[00:00:02.710] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.729] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.731] (20e0cc140) DEBUG  [Add(18, 24), Remove(17, 25)]
+[00:00:02.731] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.749] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.751] (20e0cc140) DEBUG  [Remove(18, 24)]
+[00:00:02.752] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.770] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.772] (20e0cc140) DEBUG  [Add(19, 23), Remove(34, 31), Remove(35, 31), Remove(33, 31), Remove(32, 31), Remove(36, 31), Remove(37, 31)]
+[00:00:02.773] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.790] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.792] (20e0cc140) DEBUG  [Add(20, 22), Remove(19, 23), Add(33, 31), Add(35, 31), Add(36, 31), Add(37, 31), Add(34, 31), Add(32, 31)]
+[00:00:02.793] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.811] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.813] (20e0cc140) DEBUG  [Remove(20, 22)]
+[00:00:02.813] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.831] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.833] (20e0cc140) DEBUG  [Add(21, 21), Remove(32, 31), Remove(33, 31), Remove(34, 31), Remove(35, 31), Remove(37, 31), Remove(36, 31)]
+[00:00:02.834] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.849] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:02.850] (20e0cc140) DEBUG  [Remove(21, 21), Add(35, 31), Add(36, 31), Add(34, 31), Add(37, 31), Add(33, 31), Add(32, 31)]
+[00:00:02.851] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.869] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.870] (20e0cc140) DEBUG  []
+[00:00:02.871] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:02.890] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.892] (20e0cc140) DEBUG  [Add(23, 19), Remove(33, 31), Remove(35, 31), Remove(34, 31), Remove(32, 31), Remove(36, 31), Remove(37, 31)]
+[00:00:02.893] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:02.910] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.912] (20e0cc140) DEBUG  [Remove(23, 19), Add(34, 31), Add(35, 31), Add(36, 31), Add(32, 31), Add(33, 31), Add(37, 31)]
+[00:00:02.913] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:02.930] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.932] (20e0cc140) DEBUG  [Add(24, 18)]
+[00:00:02.933] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.951] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.953] (20e0cc140) DEBUG  [Remove(25, 17), Remove(24, 18)]
+[00:00:02.953] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:02.972] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.973] (20e0cc140) DEBUG  [Remove(24, 17), Remove(27, 17), Remove(26, 17), Add(25, 17)]
+[00:00:02.973] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:02.992] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:02.994] (20e0cc140) DEBUG  [Remove(63, 0), Remove(61, 0), Remove(62, 0), Remove(60, 0), Remove(63, 1), Remove(60, 1), Remove(60, 2), Remove(63, 2), Remove(63, 3), Remove(60, 3), Remove(63, 4), Remove(60, 4), Remove(62, 4), Remove(61, 4)]
+[00:00:02.995] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:03.012] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.015] (20e0cc140) DEBUG  [Add(62, 0), Add(62, 1), Add(61, 1), Add(62, 2), Add(62, 3), Add(63, 4), Add(62, 4), Add(61, 4), Remove(25, 17)]
+[00:00:03.016] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:03.033] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:03.035] (20e0cc140) DEBUG  [Add(26, 18), Remove(32, 31), Remove(36, 31), Remove(35, 31), Remove(37, 31), Remove(33, 31), Remove(34, 31)]
+[00:00:03.035] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.050] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:03.051] (20e0cc140) DEBUG  [Remove(26, 18), Add(37, 31), Add(34, 31), Add(35, 31), Add(32, 31), Add(33, 31), Add(36, 31)]
+[00:00:03.052] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:03.071] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.072] (20e0cc140) DEBUG  [Add(27, 19)]
+[00:00:03.072] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:03.091] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.093] (20e0cc140) DEBUG  [Remove(27, 19), Add(28, 20)]
+[00:00:03.093] (20e0cc140) DEBUG  Time remaining: 15 ms
+[00:00:03.112] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.114] (20e0cc140) DEBUG  [Remove(28, 20)]
+[00:00:03.114] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.132] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.134] (20e0cc140) DEBUG  [Add(29, 21), Remove(34, 31), Remove(32, 31), Remove(35, 31), Remove(37, 31), Remove(33, 31), Remove(36, 31)]
+[00:00:03.135] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.153] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.154] (20e0cc140) DEBUG  [Remove(29, 21), Add(30, 22), Add(37, 31), Add(39, 31), Add(35, 31), Add(34, 31), Add(36, 31), Add(38, 31)]
+[00:00:03.155] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.171] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:03.173] (20e0cc140) DEBUG  [Remove(30, 22), Remove(34, 31), Remove(35, 31), Add(40, 31), Add(41, 31)]
+[00:00:03.173] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.192] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.194] (20e0cc140) DEBUG  [Add(31, 23), Remove(40, 31), Remove(41, 31), Remove(36, 31), Remove(39, 31), Remove(38, 31), Remove(37, 31)]
+[00:00:03.194] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.210] (20e0cc140) DEBUG  Frame duration: 17 ms
+[00:00:03.212] (20e0cc140) DEBUG  [Remove(31, 23), Add(38, 31), Add(41, 31), Add(43, 31), Add(42, 31), Add(40, 31), Add(39, 31)]
+[00:00:03.213] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:03.231] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.232] (20e0cc140) DEBUG  [Add(32, 24), Remove(41, 31), Remove(40, 31), Remove(42, 31), Remove(39, 31), Remove(38, 31), Remove(43, 31)]
+[00:00:03.233] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.251] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.253] (20e0cc140) DEBUG  [Remove(32, 24), Add(33, 25), Add(42, 31), Add(45, 31), Add(43, 31), Add(44, 31), Add(41, 31), Add(40, 31)]
+[00:00:03.253] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.270] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:03.272] (20e0cc140) DEBUG  [Remove(33, 25), Remove(41, 31), Remove(40, 31), Add(47, 31), Add(46, 31)]
+[00:00:03.273] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.289] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:03.292] (20e0cc140) DEBUG  [Add(34, 26), Remove(45, 31), Remove(46, 31), Remove(42, 31), Remove(47, 31), Remove(43, 31), Remove(44, 31)]
+[00:00:03.292] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:03.310] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.312] (20e0cc140) DEBUG  [Remove(34, 26), Add(48, 31), Add(49, 31), Add(46, 31), Add(47, 31), Add(45, 31), Add(44, 31)]
+[00:00:03.313] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:03.328] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:03.331] (20e0cc140) DEBUG  [Add(35, 27), Remove(45, 31), Remove(44, 31), Add(50, 31), Add(51, 31)]
+[00:00:03.332] (20e0cc140) DEBUG  Time remaining: 13 ms
+[00:00:03.348] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:03.350] (20e0cc140) DEBUG  [Remove(35, 27), Add(36, 28)]
+[00:00:03.350] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.369] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.370] (20e0cc140) DEBUG  [Remove(36, 28), Remove(46, 31), Remove(47, 31), Add(52, 31), Add(53, 31)]
+[00:00:03.370] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.389] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.391] (20e0cc140) DEBUG  [Add(37, 29), Remove(49, 31), Remove(52, 31), Remove(53, 31), Remove(50, 31), Remove(48, 31), Remove(51, 31)]
+[00:00:03.392] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.410] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.411] (20e0cc140) DEBUG  [Remove(37, 29), Add(38, 30), Add(51, 31), Add(52, 31), Add(55, 31), Add(54, 31), Add(53, 31), Add(50, 31)]
+[00:00:03.412] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.430] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.432] (20e0cc140) DEBUG  [Remove(38, 30), Remove(50, 31), Remove(51, 31), Add(57, 31), Add(56, 31)]
+[00:00:03.433] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.450] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:03.452] (20e0cc140) DEBUG  []
+[00:00:03.452] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.470] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.472] (20e0cc140) DEBUG  [Remove(8, 0)]
+[00:00:03.472] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.491] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.493] (20e0cc140) DEBUG  []
+[00:00:03.493] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.511] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.513] (20e0cc140) DEBUG  []
+[00:00:03.513] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.530] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:03.532] (20e0cc140) DEBUG  []
+[00:00:03.532] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.550] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.552] (20e0cc140) DEBUG  []
+[00:00:03.552] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.569] (20e0cc140) DEBUG  Frame duration: 18 ms
+[00:00:03.571] (20e0cc140) DEBUG  []
+[00:00:03.572] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.590] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.592] (20e0cc140) DEBUG  []
+[00:00:03.592] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.610] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.612] (20e0cc140) DEBUG  []
+[00:00:03.612] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.631] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.633] (20e0cc140) DEBUG  []
+[00:00:03.633] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.652] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.653] (20e0cc140) DEBUG  []
+[00:00:03.653] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.672] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.674] (20e0cc140) DEBUG  []
+[00:00:03.674] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.693] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.695] (20e0cc140) DEBUG  []
+[00:00:03.695] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.713] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.715] (20e0cc140) DEBUG  []
+[00:00:03.715] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.734] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.736] (20e0cc140) DEBUG  []
+[00:00:03.736] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.755] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.756] (20e0cc140) DEBUG  []
+[00:00:03.757] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.775] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.777] (20e0cc140) DEBUG  []
+[00:00:03.777] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.796] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.798] (20e0cc140) DEBUG  []
+[00:00:03.798] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.816] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.818] (20e0cc140) DEBUG  []
+[00:00:03.818] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.837] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.839] (20e0cc140) DEBUG  []
+[00:00:03.839] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.858] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.860] (20e0cc140) DEBUG  []
+[00:00:03.860] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.878] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.880] (20e0cc140) DEBUG  []
+[00:00:03.880] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.898] (20e0cc140) DEBUG  Frame duration: 19 ms
+[00:00:03.900] (20e0cc140) DEBUG  []
+[00:00:03.900] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.918] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.920] (20e0cc140) DEBUG  []
+[00:00:03.920] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.939] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.941] (20e0cc140) DEBUG  []
+[00:00:03.941] (20e0cc140) DEBUG  Time remaining: 14 ms
+[00:00:03.959] (20e0cc140) DEBUG  Frame duration: 20 ms
+[00:00:03.960] (20e0cc140) DEBUG  disable_raw_mode
