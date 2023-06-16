@@ -3,11 +3,7 @@ use std::{collections::HashSet, num::Wrapping};
 use byteorder::{BigEndian, ByteOrder};
 use rand::random;
 
-pub const FRAMES_PER_SECOND: i32 = 60;
-pub const INSTRUCTIONS_PER_FRAME: i32 = 16;
-
-pub const DISPLAY_WIDTH: i32 = 64;
-pub const DISPLAY_HEIGHT: i32 = 32;
+use crate::globals;
 
 const FONT_START_LOCATION: usize = 0x50;
 const FONT: [u8; 80] = [
@@ -29,12 +25,14 @@ const FONT: [u8; 80] = [
     0xF0, 0x80, 0xF0, 0x80, 0x80, // F
 ];
 
+pub type Display = HashSet<(i32, i32)>;
+
 #[derive(Clone)]
 pub struct Chip8 {
     // Memory 4096 bytes
     pub memory: [u8; 4096],
     // Dixplay 64 x 32 black & white pixels
-    pub display: HashSet<(i32, i32)>,
+    pub display: Display,
     // Registers 0 through F
     pub v: [u8; 16],
     // Program counter
@@ -55,7 +53,7 @@ impl Chip8 {
         memory[FONT_START_LOCATION..FONT_START_LOCATION + FONT.len()].clone_from_slice(&FONT[..]);
 
         return Chip8 {
-            memory: memory,
+            memory,
             display: HashSet::default(),
             v: [0; 16],
             pc: 0x200, // Programs start at 0x200
@@ -71,7 +69,6 @@ impl Chip8 {
         self.st = self.st.saturating_sub(1);
     }
 
-    // Actually this runs a cycle
     pub fn run_cycle(&mut self, held_keys: &HashSet<u8>) {
         // Read instruction
         let pc_idx = self.pc as usize;
@@ -331,7 +328,7 @@ impl Chip8 {
         let mut cells_turned_off = false;
         for (y_offset, byte) in sprite_data.iter().enumerate() {
             for x_offset in 0..8 {
-                if x_start + x_offset >= DISPLAY_WIDTH {
+                if x_start + x_offset >= globals::DISPLAY_WIDTH {
                     break;
                 }
                 let bit = (byte >> (7 - x_offset)) % 2;

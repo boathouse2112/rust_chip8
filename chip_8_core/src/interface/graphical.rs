@@ -1,6 +1,6 @@
 use std::{
     collections::{HashMap, HashSet},
-    thread,
+    fs, thread,
     time::{Duration, Instant},
 };
 
@@ -16,7 +16,7 @@ use sdl2::{
 
 use crate::{
     chip_8::{self, Chip8},
-    Err,
+    globals::{self, Err, Keys},
 };
 
 use super::Interface;
@@ -47,6 +47,8 @@ lazy_static! {
 pub struct Graphical {
     sdl_context: Sdl,
     canvas: Canvas<Window>,
+
+    held_keys: HashSet<u8>,
 }
 
 impl Graphical {
@@ -58,26 +60,23 @@ impl Graphical {
         let window = video_subsystem
             .window(
                 "chip_8",
-                (chip_8::DISPLAY_WIDTH * SQUARE_SIZE) as u32,
-                (chip_8::DISPLAY_HEIGHT * SQUARE_SIZE) as u32,
+                (globals::DISPLAY_WIDTH * SQUARE_SIZE) as u32,
+                (globals::DISPLAY_HEIGHT * SQUARE_SIZE) as u32,
             )
             .position_centered()
             .build()?;
 
-        let mut canvas = window
+        let canvas = window
             .into_canvas()
             .target_texture()
             .present_vsync()
             .build()?;
 
-        println!("Using SDL_Renderer \"{}\"", canvas.info().name);
-        canvas.set_draw_color(Color::RGB(0, 0, 0));
-        canvas.clear();
-        canvas.present();
-
         let graphical = Graphical {
             sdl_context,
             canvas,
+
+            held_keys: HashSet::new(),
         };
 
         Ok(graphical)
@@ -94,7 +93,7 @@ impl Interface for Graphical {
         let mut event_pump = self.sdl_context.event_pump()?;
         let mut held_keys: HashSet<u8> = HashSet::new();
 
-        let ns_per_frame: u64 = hertz::fps_to_ns_per_frame(chip_8::FRAMES_PER_SECOND as usize);
+        let ns_per_frame: u64 = hertz::fps_to_ns_per_frame(globals::FRAMES_PER_SECOND as usize);
         let mut last_frame = Instant::now();
         'running: loop {
             // Get inputs
@@ -132,11 +131,11 @@ impl Interface for Graphical {
             chip_8.decrement_counters();
 
             // Run n cycles
-            for _ in 0..chip_8::INSTRUCTIONS_PER_FRAME {
+            for _ in 0..globals::INSTRUCTIONS_PER_FRAME {
                 chip_8.run_cycle(&held_keys);
             }
 
-            draw(&mut self.canvas, &white_square_texture, &chip_8)?;
+            draw(&mut self.canvas, &white_square_texture, &chip_8.display)?;
 
             let time_remaining =
                 Duration::from_nanos(ns_per_frame).saturating_sub(last_frame.elapsed());
@@ -145,6 +144,73 @@ impl Interface for Graphical {
 
             last_frame = Instant::now();
         }
+        Ok(())
+    }
+
+    fn setup(&mut self) -> Result<(), Err> {
+        self.canvas.set_draw_color(Color::RGB(0, 0, 0));
+        self.canvas.clear();
+        self.canvas.present();
+        Ok(())
+    }
+
+    fn load_rom(&mut self, chip_8: &mut Chip8) -> Result<(), Err> {
+        // Load ROM into CPU memory
+        let rom =
+            fs::read("roms/brick.ch8").expect("should be able to read ROM file at roms/brick.ch8");
+        chip_8.memory[0x200..0x200 + rom.len()].clone_from_slice(&rom[..]);
+        chip_8.memory[0x1FF] = 5;
+        chip_8.memory[0x1FE] = 2;
+
+        Ok(())
+    }
+
+    fn read_keys(&mut self) -> Result<Keys, Err> {
+        // Get an event pump to read keys
+        let mut event_pump = self.sdl_context.event_pump()?;
+
+        for event in event_pump.poll_iter() {
+            match event {
+                Event::Quit { .. }
+                | Event::KeyDown {
+                    keycode: Some(Keycode::Escape),
+                    ..
+                } => return Ok(Keys::Break),
+                Event::KeyDown {
+                    keycode: Some(keycode),
+                    repeat: false,
+                    ..
+                } => {
+                    // Add chip_8-relevant keys to held_keys
+                    if let Some(&chip_8_key) = KEY_CODE_TO_CHIP_8_KEY.get(&keycode) {
+                        self.held_keys.insert(chip_8_key);
+                    }
+                }
+                Event::KeyUp {
+                    keycode: Some(keycode),
+                    repeat: false,
+                    ..
+                } => {
+                    if let Some(&chip_8_key) = KEY_CODE_TO_CHIP_8_KEY.get(&keycode) {
+                        self.held_keys.remove(&chip_8_key);
+                    }
+                }
+                _ => {}
+            }
+        }
+        Ok(Keys::Keys(self.held_keys.clone()))
+    }
+
+    fn draw(&mut self, chip_8: &mut Chip8) -> Result<(), Err> {
+        // Make a little texture for our white square
+        let texture_creator = self.canvas.texture_creator();
+        let white_square_texture = dummy_texture(&mut self.canvas, &texture_creator)?;
+
+        // Draw with that texture
+        draw(&mut self.canvas, &white_square_texture, &chip_8.display)
+    }
+
+    fn cleanup(&mut self) -> Result<(), Err> {
         Ok(())
     }
 }
@@ -164,11 +230,15 @@ fn dummy_texture<'a>(
     Ok(white_square)
 }
 
-fn draw(canvas: &mut Canvas<Window>, square_texture: &Texture, chip_8: &Chip8) -> Result<(), Err> {
+fn draw(
+    canvas: &mut Canvas<Window>,
+    square_texture: &Texture,
+    display: &chip_8::Display,
+) -> Result<(), Err> {
     canvas.set_draw_color(Color::RGB(0, 0, 0));
     canvas.clear();
 
-    for (x, y) in chip_8.display.iter() {
+    for (x, y) in display.iter() {
         canvas.copy(
             square_texture,
             None,
@@ -183,16 +253,4 @@ fn draw(canvas: &mut Canvas<Window>, square_texture: &Texture, chip_8: &Chip8) -
 
     canvas.present();
     Ok(())
-
-    // for x in 0..engine.get_width() {
-    //     for y in 0..engine.get_height() {
-    //         let cell_on = chip_8.display.contains(&(x as i32, y as i32));
-    //         let color = if cell_on { Color::White } else { Color::Black };
-    //         engine.set_pxl(x as i32, y as i32, pixel::pxl_bg(' ', color))
-    //     }
-    // }
-
-    // engine.print(0, 0, &format!("{:?}", held_keys));
-
-    // engine.draw();
 }

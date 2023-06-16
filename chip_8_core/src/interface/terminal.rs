@@ -1,5 +1,6 @@
 use std::{
     collections::{HashMap, HashSet},
+    fs,
     io::{stdout, Stdout, Write},
     thread,
     time::{Duration, Instant},
@@ -16,7 +17,7 @@ use log::debug;
 
 use crate::{
     chip_8::{self, Chip8},
-    globals::Err,
+    globals::{self, Err, Keys},
 };
 
 use super::Interface;
@@ -45,6 +46,9 @@ lazy_static! {
 pub struct Terminal {
     stdout: Stdout,
     device_state: DeviceState,
+
+    // Keep track of the last frame of the display, for (hopefully) faster rendering.
+    last_frame: Option<chip_8::Display>,
 }
 
 impl Terminal {
@@ -54,6 +58,7 @@ impl Terminal {
         Terminal {
             stdout,
             device_state,
+            last_frame: None,
         }
     }
 }
@@ -67,7 +72,7 @@ impl Interface for Terminal {
             .queue(terminal::Clear(ClearType::All))?
             .queue(cursor::Hide)?;
 
-        let ns_per_frame: u64 = hertz::fps_to_ns_per_frame(chip_8::FRAMES_PER_SECOND as usize);
+        let ns_per_frame: u64 = hertz::fps_to_ns_per_frame(globals::FRAMES_PER_SECOND as usize);
 
         // Game loop
         let mut last_frame_end = Instant::now();
@@ -97,7 +102,7 @@ impl Interface for Terminal {
             chip_8.decrement_counters();
 
             // Run n cycles
-            for _ in 0..chip_8::INSTRUCTIONS_PER_FRAME {
+            for _ in 0..globals::INSTRUCTIONS_PER_FRAME {
                 chip_8.run_cycle(&held_keys);
             }
 
@@ -127,11 +132,64 @@ impl Interface for Terminal {
 
         Ok(())
     }
+
+    fn load_rom(&mut self, chip_8: &mut Chip8) -> Result<(), Err> {
+        // Load ROM into CPU memory
+        let rom =
+            fs::read("roms/brick.ch8").expect("should be able to read ROM file at roms/brick.ch8");
+        chip_8.memory[0x200..0x200 + rom.len()].clone_from_slice(&rom[..]);
+        chip_8.memory[0x1FF] = 5;
+        chip_8.memory[0x1FE] = 2;
+
+        Ok(())
+    }
+
+    fn setup(&mut self) -> Result<(), Err> {
+        terminal::enable_raw_mode()?;
+        self.stdout
+            .queue(terminal::EnterAlternateScreen)?
+            .queue(terminal::Clear(ClearType::All))?
+            .queue(cursor::Hide)?;
+        Ok(())
+    }
+
+    fn read_keys(&mut self) -> Result<Keys, Err> {
+        let term_keys = self.device_state.get_keys();
+
+        // Break out if ESC or CTRL-C are pressed
+        if term_keys.contains(&Keycode::Escape)
+            || (term_keys.contains(&Keycode::LControl) && term_keys.contains(&Keycode::C))
+        {
+            return Ok(Keys::Break);
+        }
+
+        // Convert term_keys to Keys hashset
+        let keys_set: HashSet<u8> = term_keys
+            .into_iter()
+            .filter_map(|key_code| KEY_CODE_TO_CHIP_8_KEY.get(&key_code).map(|key| key.clone()))
+            .collect();
+        Ok(Keys::Keys(keys_set))
+    }
+
+    fn draw(&mut self, chip_8: &mut Chip8) -> Result<(), Err> {
+        let last_frame = self.last_frame.clone().unwrap_or_default();
+        draw(&chip_8.display, &last_frame, &mut self.stdout)?;
+        self.last_frame = Some(chip_8.display.clone());
+        Ok(())
+    }
+
+    fn cleanup(&mut self) -> Result<(), Err> {
+        self.stdout
+            .queue(cursor::Show)?
+            .queue(terminal::LeaveAlternateScreen)?;
+        terminal::disable_raw_mode()?;
+        Ok(())
+    }
 }
 
 fn draw(
-    display: &HashSet<(i32, i32)>,
-    last_frame_display: &HashSet<(i32, i32)>,
+    display: &chip_8::Display,
+    last_frame_display: &chip_8::Display,
     stdout: &mut Stdout,
 ) -> Result<(), Err> {
     // Get a diff between last_frame_display and display,

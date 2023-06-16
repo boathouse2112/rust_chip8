@@ -1,7 +1,10 @@
 [package]
-name = "rust_chip8"
+name = "chip_8_core"
 version = "0.1.0"
 edition = "2021"
+
+[lib]
+path = "src/lib.rs"
 
 [dependencies]
 byteorder = "1.4.3"
@@ -15,5 +18,3 @@ rand = "0.8.5"
 sdl2 = "0.35.2"
 simple-logging = "2.0.2"
 
-[dependencies.chip_8_core]
-path = "./chip_8_core"
