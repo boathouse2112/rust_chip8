@@ -7,3 +7,6 @@ chip_8_core/Cargo.lock
 
 # Remove log files
 *.log
+
+# Remove node_modules
+**/node_modules/
