@@ -3,11 +3,6 @@ use crate::{
     globals::{Err, Keys},
 };
 
-mod graphical;
-pub use graphical::Graphical;
-mod terminal;
-pub use terminal::Terminal;
-
 /// A GUI/TUI interface for the emulator
 pub trait Interface {
     fn run(&mut self, chip_8: &mut Chip8) -> Result<(), Err>;

@@ -1,11 +1,5 @@
-use std::{
-    collections::{HashMap, HashSet},
-    fs,
-    io::{stdout, Stdout, Write},
-    thread,
-    time::{Duration, Instant},
-};
-
+use chip_8_core::globals::{Err, Keys};
+use chip_8_core::{chip_8, globals, Chip8, Interface};
 use crossterm::{
     cursor,
     style::Print,
@@ -13,14 +7,15 @@ use crossterm::{
     QueueableCommand,
 };
 use device_query::{DeviceQuery, DeviceState, Keycode};
+use lazy_static::lazy_static;
 use log::debug;
-
-use crate::{
-    chip_8::{self, Chip8},
-    globals::{self, Err, Keys},
+use std::{
+    collections::{HashMap, HashSet},
+    fs,
+    io::{stdout, Stdout, Write},
+    thread,
+    time::{Duration, Instant},
 };
-
-use super::Interface;
 
 lazy_static! {
     static ref KEY_CODE_TO_CHIP_8_KEY: HashMap<Keycode, u8> = HashMap::from([
@@ -64,7 +59,7 @@ impl Terminal {
 }
 
 impl Interface for Terminal {
-    fn run(&mut self, chip_8: &mut Chip8) -> Result<(), crate::globals::Err> {
+    fn run(&mut self, chip_8: &mut Chip8) -> Result<(), Err> {
         // Terminal setup
         terminal::enable_raw_mode()?;
         self.stdout

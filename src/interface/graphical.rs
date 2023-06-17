@@ -1,9 +1,9 @@
-use std::{
-    collections::{HashMap, HashSet},
-    fs, thread,
-    time::{Duration, Instant},
+use chip_8_core::{
+    chip_8,
+    globals::{self, Err, Keys},
+    Chip8, Interface,
 };
-
+use lazy_static::lazy_static;
 use sdl2::{
     event::Event,
     keyboard::Keycode,
@@ -13,13 +13,11 @@ use sdl2::{
     video::{Window, WindowContext},
     Sdl,
 };
-
-use crate::{
-    chip_8::{self, Chip8},
-    globals::{self, Err, Keys},
+use std::{
+    collections::{HashMap, HashSet},
+    fs, thread,
+    time::{Duration, Instant},
 };
-
-use super::Interface;
 
 const SQUARE_SIZE: i32 = 16;
 
@@ -84,7 +82,7 @@ impl Graphical {
 }
 
 impl Interface for Graphical {
-    fn run(&mut self, chip_8: &mut crate::chip_8::Chip8) -> Result<(), Err> {
+    fn run(&mut self, chip_8: &mut Chip8) -> Result<(), Err> {
         // Make a little texture for our white square
         let texture_creator = self.canvas.texture_creator();
         let white_square_texture = dummy_texture(&mut self.canvas, &texture_creator)?;

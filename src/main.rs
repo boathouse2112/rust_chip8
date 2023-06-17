@@ -1,9 +1,8 @@
-use chip_8_core::{
-    globals::Err,
-    interface::{Graphical, Terminal},
-    runner, Interface,
-};
+mod interface;
+
+use chip_8_core::{globals::Err, runner, Interface};
 use clap::{command, Parser, ValueEnum};
+use interface::{Graphical, Terminal};
 use log::LevelFilter;
 
 #[derive(Copy, Clone, ValueEnum)]
