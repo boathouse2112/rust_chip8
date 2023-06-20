@@ -2,5 +2,5 @@
 members = [
   "chip_8_core",
   "chip_8_desktop",
-  "chip_8_wasm",
+  "chip_8_wasm"
 ]

@@ -1,20 +1,62 @@
 use std::f64;
 use wasm_bindgen::prelude::*;
+use web_sys::{console, CanvasRenderingContext2d, Element, HtmlCanvasElement};
+
+// println!-like macro for console.log()
+macro_rules! console_log {
+    ($($t:tt)*) => (console::log_1(&format_args!($($t)*).to_string().into()))
+}
+/// Adds .expect_log extension method that unwraps an Option/Result, or logs the given message and panics if it can't.
+trait ExpectLog: Sized {
+    type T;
+    fn expect_log(self, msg: &str) -> Self::T;
+}
+
+impl<T> ExpectLog for Option<T> {
+    type T = T;
+
+    fn expect_log(self, msg: &str) -> Self::T {
+        match self {
+            Some(val) => return val,
+            None => {
+                console_log!("{}", msg);
+                panic!();
+            }
+        }
+    }
+}
+
+impl<T, E> ExpectLog for Result<T, E> {
+    type T = T;
+
+    fn expect_log(self, msg: &str) -> Self::T {
+        match self {
+            Ok(val) => return val,
+            Err(_) => {
+                console_log!("{}", msg);
+                panic!();
+            }
+        }
+    }
+}
 
 #[wasm_bindgen(start)]
-fn start() {
-    let document = web_sys::window().unwrap().document().unwrap();
-    let canvas = document.get_element_by_id("canvas").unwrap();
-    let canvas: web_sys::HtmlCanvasElement = canvas
-        .dyn_into::<web_sys::HtmlCanvasElement>()
-        .map_err(|_| ())
-        .unwrap();
+pub fn main() -> Result<(), JsValue> {
+    // Use `web_sys`'s global `window` function to get a handle on the global
+    // window object.
+    let window = web_sys::window().expect("no global `window` exists");
+    let document = window.document().expect("should have a document on window");
+    let canvas = document
+        .get_element_by_id("canvas")
+        .expect_log("can't find element #canvas");
 
-    let context = canvas
+    let canvas: HtmlCanvasElement = canvas.dyn_into().map_err(|_| ()).unwrap();
+
+    let context: CanvasRenderingContext2d = canvas
         .get_context("2d")
         .unwrap()
         .unwrap()
-        .dyn_into::<web_sys::CanvasRenderingContext2d>()
+        .dyn_into()
         .unwrap();
 
     context.begin_path();
@@ -41,4 +83,6 @@ fn start() {
         .unwrap();
 
     context.stroke();
+
+    Ok(())
 }
